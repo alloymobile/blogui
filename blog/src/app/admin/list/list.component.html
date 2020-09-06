@@ -1,0 +1,22 @@
+<table class="table table-striped text-center">
+  <thead>
+    <tr>
+      <th scope="col" *ngFor="let head of data.tableHead | keyvalue">
+        {{ head.key }}
+      </th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let body of data.tableBody">
+      <td *ngFor="let key of body | keyvalue">
+        {{ key.value }}
+      </td>
+      <td>
+        <button class="btn btn-primary">Delete</button>
+        <button class="btn btn-primary">Delete</button>
+        <button class="btn btn-primary">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
