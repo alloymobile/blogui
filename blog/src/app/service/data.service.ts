@@ -12,20 +12,7 @@ export class DataService {
   constructor() {
     this.user = new PostUser();
     this.loginUser = new Login();
-    this.tableBody = [
-      {
-        id: 1,
-        name: 'science',
-      },
-      {
-        id: 2,
-        name: 'Math',
-      },
-    ];
-    if (this.tableBody && this.tableBody.length > 0) {
-      this.tableHead = this.tableBody[0];
-    } else {
-      this.tableHead = {};
-    }
+    this.tableBody = [];
+    this.tableHead = {};
   }
 }

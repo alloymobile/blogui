@@ -1,8 +1,8 @@
 <table class="table table-striped text-center">
   <thead>
     <tr>
-      <th scope="col" *ngFor="let head of data.tableHead | keyvalue">
-        {{ head.key }}
+      <th scope="col" *ngFor="let head of data.tableHead.columns">
+        {{ head.name }}
       </th>
       <th scope="col">Action</th>
     </tr>

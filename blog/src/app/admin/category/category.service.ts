@@ -9,7 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class CategoryService {
   headers: HttpHeaders;
-  apiEndPoint: string = 'https://alloymobile.azurewebsites.net/api';
+  apiEndPoint: string = 'http://localhost:8080/api';
   constructor(private http: HttpClient, private data: DataService) {
     this.data.tableBody = [];
     this.data.tableHead = {};
@@ -24,6 +24,18 @@ export class CategoryService {
       );
     }
     let apiEndPoint = this.apiEndPoint + '/category';
+    return this.http.get(apiEndPoint, { headers: this.headers });
+  }
+
+  getCategoryMetadata() {
+    if (localStorage.getItem('user')) {
+      let user = JSON.parse(localStorage.getItem('user'));
+      this.headers = new HttpHeaders().set(
+        'Authorization',
+        'Bearer ' + user.token
+      );
+    }
+    let apiEndPoint = this.apiEndPoint + '/category/metadata';
     return this.http.get(apiEndPoint, { headers: this.headers });
   }
 

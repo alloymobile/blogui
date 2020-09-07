@@ -1,3 +1,4 @@
+import { TableMetadata } from './../../model/table-metadata';
 import { CategoryService } from './../category/category.service';
 import { DataService } from '../../service/data.service';
 import { Component, OnInit, Input } from '@angular/core';
@@ -22,14 +23,15 @@ export class ListComponent implements OnInit {
   }
 
   getAllCategory() {
+    this.categoryService.getCategoryMetadata().subscribe((res: any) => {
+      this.data.tableHead = new TableMetadata(res);
+    });
+
     this.categoryService.getAllCategory().subscribe(
       (res: any) => {
-        if (res.content) {
-          res.content.forEach((element) => {
-            this.data.tableBody.push(new Category(element));
-          });
-          this.data.tableHead = this.data.tableBody[0];
-        }
+        res.content.forEach((element) => {
+          this.data.tableBody.push(new Category(element));
+        });
       },
       (error) => {}
     );
