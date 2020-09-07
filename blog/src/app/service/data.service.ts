@@ -1,3 +1,4 @@
+import { PostUser, Login } from './../admin/post-user/post-user';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -6,7 +7,11 @@ import { Injectable } from '@angular/core';
 export class DataService {
   tableBody: any;
   tableHead: any;
+  user: PostUser;
+  loginUser: Login;
   constructor() {
+    this.user = new PostUser();
+    this.loginUser = new Login();
     this.tableBody = [
       {
         id: 1,
@@ -15,18 +20,6 @@ export class DataService {
       {
         id: 2,
         name: 'Math',
-      },
-      {
-        id: 3,
-        name: 'English',
-      },
-      {
-        id: 4,
-        name: 'Computer',
-      },
-      {
-        id: 5,
-        name: 'Drawing',
       },
     ];
     if (this.tableBody && this.tableBody.length > 0) {

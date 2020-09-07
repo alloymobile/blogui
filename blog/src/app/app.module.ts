@@ -1,14 +1,16 @@
-import { DataService } from './data.service';
+import { AuthService } from './service/auth.service';
+import { PostUserService } from './admin/post-user/post-user.service';
+import { DataService } from './service/data.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { BannerComponent } from './banner/banner.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { AdminComponent } from './admin/admin.component';
 import { ListComponent } from './admin/list/list.component';
 import { PostComponent } from './admin/post/post.component';
@@ -24,7 +26,6 @@ import { CommentUserComponent } from './admin/comment-user/comment-user.componen
     NavbarComponent,
     BannerComponent,
     LoginComponent,
-    RegisterComponent,
     AdminComponent,
     ListComponent,
     PostComponent,
@@ -34,8 +35,8 @@ import { CommentUserComponent } from './admin/comment-user/comment-user.componen
     TagComponent,
     CommentUserComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
-  providers: [DataService],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  providers: [DataService, PostUserService, AuthService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
