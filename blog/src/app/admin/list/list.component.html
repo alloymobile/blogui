@@ -1,22 +1,92 @@
-<table class="table table-striped text-center">
-  <thead>
-    <tr>
-      <th scope="col" *ngFor="let head of data.tableHead.columns">
-        {{ head.name }}
-      </th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let body of data.tableBody">
-      <td *ngFor="let key of body | keyvalue">
-        {{ key.value }}
-      </td>
-      <td>
-        <button class="btn btn-primary">Delete</button>
-        <button class="btn btn-primary">Delete</button>
-        <button class="btn btn-primary">Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="container">
+  <h4>
+    <button
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#add"
+      (click)="add()"
+    >
+      Add</button
+    >{{ data.tableHead.name }}
+  </h4>
+  <table class="table table-striped text-center">
+    <thead>
+      <tr>
+        <th scope="col" *ngFor="let head of data.tableHead.columns">
+          {{ head.name }}
+        </th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let body of data.tableBody">
+        <td *ngFor="let key of body | keyvalue">
+          {{ key.value }}
+        </td>
+        <td>
+          <button class="btn btn-primary">Delete</button>
+          <button class="btn btn-primary">Delete</button>
+          <button class="btn btn-primary">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="add"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form
+        [formGroup]="categoryForm"
+        (ngSubmit)="onSubmit()"
+        #loginForm="ngForm"
+      >
+        <div class="modal-body">
+          <div
+            class="form-group"
+            *ngFor="let c of category | keyvalue; index as i"
+          >
+            <label [for]="c.key + i">{{ c.key }}</label>
+            <input
+              [id]="c.key + i"
+              [type]="data.tableHead.columns[i].dataType"
+              class="form-control"
+              [formControlName]="c.key"
+              [placeholder]="c.key"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="categoryForm.pristine"
+          >
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
