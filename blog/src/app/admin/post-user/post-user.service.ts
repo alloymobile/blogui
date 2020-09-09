@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class PostUserService {
-  apiEndPoint: string = 'http://localhost:8080/api';
+  apiEndPoint: string = 'https://alloymobile.azurewebsites.net/api';
   constructor(private http: HttpClient) {}
 
   login(postUser: PostUser) {

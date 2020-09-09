@@ -2,9 +2,7 @@
   <h4>
     <button
       class="btn btn-primary"
-      data-toggle="modal"
-      data-target="#add"
-      (click)="add()"
+      (click)="openModal(true)"
     >
       Add</button
     >{{ data.tableHead.name }}
@@ -19,13 +17,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let body of data.tableBody">
+      <tr *ngFor="let body of data.tableBody;index as j;">
         <td *ngFor="let key of body | keyvalue">
           {{ key.value }}
         </td>
         <td>
-          <button class="btn btn-primary">Delete</button>
-          <button class="btn btn-primary">Delete</button>
+          <button class="btn btn-primary" (click)="openModal(true,body)">Update</button>
           <button class="btn btn-primary">Delete</button>
         </td>
       </tr>
@@ -35,7 +32,7 @@
 <!-- Modal -->
 <div
   class="modal fade"
-  id="add"
+  id="myModal"
   tabindex="-1"
   role="dialog"
   aria-labelledby="exampleModalLabel"
@@ -48,8 +45,8 @@
         <button
           type="button"
           class="close"
-          data-dismiss="modal"
           aria-label="Close"
+          (click)="openModal(false)"
         >
           <span aria-hidden="true">&times;</span>
         </button>
@@ -75,7 +72,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <button type="button" class="btn btn-secondary" (click)="openModal(false)">
             Close
           </button>
           <button

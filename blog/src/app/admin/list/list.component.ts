@@ -10,27 +10,72 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
+import { ListService } from './list.service';
+declare var $: any;
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
+  providers: [ListService],
 })
 export class ListComponent implements OnInit {
-  category: Category;
   categoryForm: FormGroup;
+  category: any;
   constructor(
     public data: DataService,
     private formBuilder: FormBuilder,
+    private listService: ListService,
     private categoryService: CategoryService
   ) {
     this.data.tableHead = {};
     this.data.tableBody = [];
-    this.category = new Category();
     this.categoryForm = this.createCategory();
+    this.category = new Category();
   }
   ngOnInit(): void {
     this.getAllCategory();
+    this.categoryForm = this.createCategory();
+  }
+
+  openModal(open: boolean,data?: any){
+    if(open){
+      this.categoryForm = this.createCategory(data);
+      console.log(this.categoryForm.value);
+      $("#myModal").modal('show');
+    }else{
+      this.categoryForm = this.createCategory(data);
+      console.log(this.categoryForm.value);
+      $("#myModal").modal('hide');
+    }
+  }
+
+  createCategory(data?: any) {
+    if(data){
+      return this.formBuilder.group({
+        id: [data.id, Validators.required],
+        name: [data.name, Validators.required],
+      });
+    }else{
+      return this.formBuilder.group({
+        id: [0, Validators.required],
+        name: ['Country', Validators.required],
+      });
+    }
+  }
+
+  onSubmit() {
+    this.category = this.categoryForm.value;
+    if(this.category.id != 0){
+      this.listService.updateData(this.category).subscribe(res=>{
+        console.log(res);
+      });
+    }else{
+      this.listService.addData(this.category).subscribe(res=>{
+        console.log(res);
+      });
+    }
+    $("#myModal").modal('hide');
   }
 
   getAllCategory() {
@@ -46,20 +91,5 @@ export class ListComponent implements OnInit {
       },
       (error) => {}
     );
-  }
-
-  createCategory() {
-    return this.formBuilder.group({
-      id: [0, Validators.required],
-      name: ['Country', Validators.required],
-    });
-  }
-
-  onSubmit() {
-    console.log(this.categoryForm.value);
-  }
-
-  add() {
-    this.categoryForm = this.createCategory();
   }
 }
