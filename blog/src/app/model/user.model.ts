@@ -1,4 +1,4 @@
-export class PostUser {
+export class User {
   id?: number;
   name?: string;
   email: string;

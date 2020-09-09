@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { PostUserService } from './../admin/post-user/post-user.service';
+import { PostUserService } from '../service/user.service';
 import { DataService } from '../service/data.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';

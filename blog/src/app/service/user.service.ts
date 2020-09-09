@@ -1,5 +1,5 @@
 import { map } from 'rxjs/operators';
-import { PostUser } from './post-user';
+import { User } from '../model/user.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -7,13 +7,13 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class PostUserService {
-  apiEndPoint: string = 'https://alloymobile.azurewebsites.net/api';
+  apiEndPoint: string = 'https://alloymobile.azurewebsites.net/blog/api';
   constructor(private http: HttpClient) {}
 
-  login(postUser: PostUser) {
+  login(postUser: User) {
     let apiEndPoint = this.apiEndPoint + '/login';
     return this.http
       .post(apiEndPoint, postUser)
-      .pipe(map((response: any) => new PostUser(response)));
+      .pipe(map((response: any) => new User(response)));
   }
 }

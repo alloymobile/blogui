@@ -1,101 +1,106 @@
 <ul class="nav nav-tabs">
-  <li class="nav-item">
+  <li class="nav-item" *ngFor="let table of tables">
     <a
-      class="nav-link dropdown-toggle"
-      data-toggle="dropdown"
-      href="#"
+      class="nav-link"
+      [routerLink]=""
       role="button"
-      aria-haspopup="true"
-      aria-expanded="false"
-      >Post</a
+      (click)="showList(table)"
+      >{{ table.name }}</a
     >
-    <div class="dropdown-menu">
-      <a class="dropdown-item" routerLink="/admin">Show All Post</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" routerLink="/admin/post">Add Post</a>
-    </div>
-  </li>
-  <li class="nav-item">
-    <a
-      class="nav-link dropdown-toggle"
-      data-toggle="dropdown"
-      href="#"
-      role="button"
-      aria-haspopup="true"
-      aria-expanded="false"
-      >Category</a
-    >
-    <div class="dropdown-menu">
-      <a class="dropdown-item" routerLink="/admin">Show All Category</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" routerLink="/admin/category">Add Category</a>
-    </div>
-  </li>
-  <li class="nav-item">
-    <a
-      class="nav-link dropdown-toggle"
-      data-toggle="dropdown"
-      href="#"
-      role="button"
-      aria-haspopup="true"
-      aria-expanded="false"
-      >Post User</a
-    >
-    <div class="dropdown-menu">
-      <a class="dropdown-item" routerLink="/admin">Show All Post User</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" routerLink="/admin/post-user">Add Post User</a>
-    </div>
-  </li>
-  <li class="nav-item">
-    <a
-      class="nav-link dropdown-toggle"
-      data-toggle="dropdown"
-      href="#"
-      role="button"
-      aria-haspopup="true"
-      aria-expanded="false"
-      >Tag</a
-    >
-    <div class="dropdown-menu">
-      <a class="dropdown-item" routerLink="/admin">Show All Tag</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" routerLink="/admin/tag">Add Tag</a>
-    </div>
-  </li>
-  <li class="nav-item">
-    <a
-      class="nav-link dropdown-toggle"
-      data-toggle="dropdown"
-      href="#"
-      role="button"
-      aria-haspopup="true"
-      aria-expanded="false"
-      >Comment</a
-    >
-    <div class="dropdown-menu">
-      <a class="dropdown-item" routerLink="/admin">Show All Comment</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" routerLink="/admin/comment">Add Comment</a>
-    </div>
-  </li>
-  <li class="nav-item">
-    <a
-      class="nav-link dropdown-toggle"
-      data-toggle="dropdown"
-      href="#"
-      role="button"
-      aria-haspopup="true"
-      aria-expanded="false"
-      >Comment User</a
-    >
-    <div class="dropdown-menu">
-      <a class="dropdown-item" routerLink="/admin">Show All Comment User</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" routerLink="/admin/comment-user"
-        >Add Comment User</a
-      >
-    </div>
   </li>
 </ul>
-<router-outlet></router-outlet>
+<div *ngIf="loadData">
+  <img src="../../assets/loading.gif" alt="Fetching Data From Server" />
+</div>
+<div class="container">
+  <h4>
+    <button class="btn btn-primary" (click)="openModal(true)">Add</button
+    >{{ "category" }}
+  </h4>
+  <table class="table table-striped text-center">
+    <thead>
+      <tr>
+        <th scope="col" *ngFor="let head of data.tableHead">
+          {{ head.name }}
+        </th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let body of data.tableBody; index as j">
+        <td *ngFor="let key of body | keyvalue">
+          {{ key.value }}
+        </td>
+        <td>
+          <button class="btn btn-primary" (click)="openModal(true, body)">
+            Update
+          </button>
+          <button class="btn btn-primary" (click)="delete(body)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="myModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="openModal(false)"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form
+        [formGroup]="categoryForm"
+        (ngSubmit)="submitData()"
+        #loginForm="ngForm"
+      >
+        <div class="modal-body" *ngIf="category != undefined">
+          <div
+            class="form-group"
+            *ngFor="let c of category | keyvalue; index as i"
+          >
+            <label for="{{ c.key + i }}">{{ c.key }}</label>
+            <input
+              *ngIf="data.tableHead.length > 0"
+              id="{{ c.key + i }}"
+              type="{{ data.tableHead[i].dataType }}"
+              class="form-control"
+              formControlName="{{ c.key }}"
+              placeholder="{{ c.key }}"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="openModal(false)"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="categoryForm.pristine"
+          >
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
