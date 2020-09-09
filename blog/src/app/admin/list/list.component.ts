@@ -38,25 +38,25 @@ export class ListComponent implements OnInit {
     this.categoryForm = this.createCategory();
   }
 
-  openModal(open: boolean,data?: any){
-    if(open){
+  openModal(open: boolean, data?: any) {
+    if (open) {
       this.categoryForm = this.createCategory(data);
       console.log(this.categoryForm.value);
-      $("#myModal").modal('show');
-    }else{
+      $('#myModal').modal('show');
+    } else {
       this.categoryForm = this.createCategory(data);
       console.log(this.categoryForm.value);
-      $("#myModal").modal('hide');
+      $('#myModal').modal('hide');
     }
   }
 
   createCategory(data?: any) {
-    if(data){
+    if (data) {
       return this.formBuilder.group({
         id: [data.id, Validators.required],
         name: [data.name, Validators.required],
       });
-    }else{
+    } else {
       return this.formBuilder.group({
         id: [0, Validators.required],
         name: ['Country', Validators.required],
@@ -66,19 +66,21 @@ export class ListComponent implements OnInit {
 
   onSubmit() {
     this.category = this.categoryForm.value;
-    if(this.category.id != 0){
-      this.listService.updateData(this.category).subscribe(res=>{
-        console.log(res);
+    if (this.category.id != 0) {
+      this.listService.updateData(this.category).subscribe((res) => {
+        this.getAllCategory();
       });
-    }else{
-      this.listService.addData(this.category).subscribe(res=>{
-        console.log(res);
+    } else {
+      this.listService.addData(this.category).subscribe((res) => {
+        this.getAllCategory();
       });
     }
-    $("#myModal").modal('hide');
+    $('#myModal').modal('hide');
   }
 
   getAllCategory() {
+    this.data.tableHead = {};
+    this.data.tableBody = [];
     this.categoryService.getCategoryMetadata().subscribe((res: any) => {
       this.data.tableHead = new TableMetadata(res);
     });
@@ -91,5 +93,11 @@ export class ListComponent implements OnInit {
       },
       (error) => {}
     );
+  }
+
+  delete(data: any) {
+    this.listService.deleteData(data).subscribe((res: any) => {
+      this.getAllCategory();
+    });
   }
 }
