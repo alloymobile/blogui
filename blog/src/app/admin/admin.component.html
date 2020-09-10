@@ -15,13 +15,13 @@
 <div class="container">
   <div class="d-flex justify-content-between">
     <h4>{{ table.name }}</h4>
-    <button class="btn btn-primary" (click)="openModal(true)">Add</button>
+    <button class="btn btn-primary" (click)="openModal(true,'Add')">Add</button>
   </div>
   <table class="table table-striped text-center">
     <thead>
       <tr>
         <th scope="col" *ngFor="let head of tableHead">
-          {{ head.name }}
+          {{ head.name}}
         </th>
         <th scope="col">Action</th>
       </tr>
@@ -32,10 +32,10 @@
           {{ key.value }}
         </td>
         <td>
-          <button class="btn btn-primary" (click)="openModal(true, body)">
+          <button class="btn btn-primary" (click)="openModal(true, 'Update',body)">
             Update
           </button>
-          <button class="btn btn-primary" (click)="delete(body)">Delete</button>
+          <button class="btn btn-primary" (click)="openModal(true,'Delete',body)">Delete</button>
         </td>
       </tr>
     </tbody>
@@ -53,7 +53,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{modalType +" a "+table.name}}</h5>
         <button
           type="button"
           class="close"
@@ -81,7 +81,7 @@
               class="form-control"
               formControlName="{{ c.key }}"
               placeholder="{{ c.key }}"
-              [readonly]="false"
+              [readonly]="tableHead[i].readOnly || modalType=='Delete'"
             />
           </div>
         </div>
@@ -96,9 +96,8 @@
           <button
             type="submit"
             class="btn btn-primary"
-            [disabled]="categoryForm.pristine"
           >
-            Save changes
+            {{modalType}}
           </button>
         </div>
       </form>

@@ -20,6 +20,7 @@ export class AdminComponent extends Blog implements OnInit {
   table: TableMetadata;
   tableBody: any[];
   tableHead: ColumnMetadata[];
+  modalType: string;
 
   constructor(
     private adminService: AdminService,
@@ -33,12 +34,12 @@ export class AdminComponent extends Blog implements OnInit {
     this.tables = [];
     this.table = new TableMetadata();
     this.loadData = false;
+    this.modalType = "Hi";
   }
 
   ngOnInit(): void {
     this.tables = [];
     this.getBlog();
-    this.getDataList('category');
     this.categoryForm = this.createData();
   }
 
@@ -55,7 +56,7 @@ export class AdminComponent extends Blog implements OnInit {
     this.getDataList(this.table.name);
   }
 
-  openModal(open: boolean, data?: any) {
+  openModal(open: boolean, modalType?: string, data?: any) {
     if (open) {
       this.categoryForm = this.createData(data);
       $('#myModal').modal('show');
@@ -63,6 +64,7 @@ export class AdminComponent extends Blog implements OnInit {
       this.categoryForm = this.createData(data);
       $('#myModal').modal('hide');
     }
+    modalType? this.modalType = modalType : this.modalType = "";
   }
 
   createData(data?: any) {
@@ -82,17 +84,25 @@ export class AdminComponent extends Blog implements OnInit {
   submitData() {
     this.category = this.categoryForm.value;
     if (this.category.id != 0) {
-      this.adminService
+      if(this.modalType === "Update"){
+        this.adminService
         .updateData(this.table.name, this.category)
         .subscribe((res) => {
           this.getDataList(this.table.name);
         });
-    } else {
-      this.adminService
-        .addData(this.table.name, this.category)
-        .subscribe((res) => {
+      }else if(this.modalType === "Delete"){
+        this.adminService
+        .deleteData(this.table.name, this.category)
+        .subscribe((res: any) => {
           this.getDataList(this.table.name);
         });
+      }
+    } else {
+      this.adminService
+      .addData(this.table.name, this.category)
+      .subscribe((res) => {
+        this.getDataList(this.table.name);
+      });
     }
     $('#myModal').modal('hide');
   }
@@ -116,13 +126,5 @@ export class AdminComponent extends Blog implements OnInit {
       },
       (error) => {}
     );
-  }
-
-  delete(data: any) {
-    this.adminService
-      .deleteData(this.table.name, data)
-      .subscribe((res: any) => {
-        this.getDataList(this.table.name);
-      });
   }
 }
