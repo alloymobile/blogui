@@ -17,29 +17,29 @@ export class AdminService extends Blog {
   }
 
   getDataList(metadata: string) {
-    let apiEndPoint = this.apiEndPoint + '/category';
+    let apiEndPoint = this.apiEndPoint + '/' + metadata;
     return this.http.get(apiEndPoint, { headers: this.headers });
   }
 
-  getData(data: any) {
-    let apiEndPoint = this.apiEndPoint + '/category' + '/' + data.id;
+  getData(metadata: string, data: any) {
+    let apiEndPoint = this.apiEndPoint + '/' + metadata + '/' + data.id;
     return this.http.get(apiEndPoint, { headers: this.headers });
   }
 
-  addData(data: any) {
-    let apiEndPoint = this.apiEndPoint + '/category';
+  addData(metadata: string, data: any) {
+    let apiEndPoint = this.apiEndPoint + '/' + metadata;
     this.addTokenInHeader();
     return this.http.post(apiEndPoint, data, { headers: this.headers });
   }
 
-  updateData(data: any) {
-    let apiEndPoint = this.apiEndPoint + '/category' + '/' + data.id;
+  updateData(metadata: string, data: any) {
+    let apiEndPoint = this.apiEndPoint + '/' + metadata + '/' + data.id;
     this.addTokenInHeader();
     return this.http.put(apiEndPoint, data, { headers: this.headers });
   }
 
-  deleteData(data: any) {
-    let apiEndPoint = this.apiEndPoint + '/category' + '/' + data.id;
+  deleteData(metadata: string, data: any) {
+    let apiEndPoint = this.apiEndPoint + '/' + metadata + '/' + data.id;
     this.addTokenInHeader();
     return this.http.delete(apiEndPoint, { headers: this.headers });
   }

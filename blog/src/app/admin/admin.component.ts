@@ -1,6 +1,5 @@
 import { Blog } from './../blog';
 import { Category } from '../model/category.model';
-import { DataService } from './../service/data.service';
 import { TableMetadata, ColumnMetadata } from '../model/metadata.model';
 import { AdminService } from './admin.service';
 import { Component, OnInit } from '@angular/core';
@@ -18,18 +17,21 @@ export class AdminComponent extends Blog implements OnInit {
   categoryForm: FormGroup;
   category: any;
   loadData: boolean;
+  table: TableMetadata;
+  tableBody: any[];
+  tableHead: ColumnMetadata[];
 
   constructor(
     private adminService: AdminService,
-    public data: DataService,
     private formBuilder: FormBuilder
   ) {
     super();
-    this.data.tableHead = [];
-    this.data.tableBody = [];
+    this.tableHead = [];
+    this.tableBody = [];
     this.categoryForm = this.createData();
     this.category = new Category();
     this.tables = [];
+    this.table = new TableMetadata();
     this.loadData = false;
   }
 
@@ -48,8 +50,9 @@ export class AdminComponent extends Blog implements OnInit {
     });
   }
 
-  showList(table: string) {
-    this.getDataList(table);
+  showList(table: TableMetadata) {
+    this.table = table;
+    this.getDataList(this.table.name);
   }
 
   openModal(open: boolean, data?: any) {
@@ -79,31 +82,35 @@ export class AdminComponent extends Blog implements OnInit {
   submitData() {
     this.category = this.categoryForm.value;
     if (this.category.id != 0) {
-      this.adminService.updateData(this.category).subscribe((res) => {
-        // this.getDataList();
-      });
+      this.adminService
+        .updateData(this.table.name, this.category)
+        .subscribe((res) => {
+          this.getDataList(this.table.name);
+        });
     } else {
-      this.adminService.addData(this.category).subscribe((res) => {
-        // this.getDataList();
-      });
+      this.adminService
+        .addData(this.table.name, this.category)
+        .subscribe((res) => {
+          this.getDataList(this.table.name);
+        });
     }
     $('#myModal').modal('hide');
   }
 
   getDataList(table: string) {
-    this.data.tableHead = [];
-    this.data.tableBody = [];
+    this.tableHead = [];
+    this.tableBody = [];
     this.loadData = true;
     this.adminService.getMetadata(table).subscribe((res: any) => {
       res.forEach((element) => {
-        this.data.tableHead.push(new ColumnMetadata(element));
+        this.tableHead.push(new ColumnMetadata(element));
       });
     });
 
     this.adminService.getDataList(table).subscribe(
       (res: any) => {
         res.content.forEach((element) => {
-          this.data.tableBody.push(new Category(element));
+          this.tableBody.push(new Category(element));
           this.loadData = false;
         });
       },
@@ -112,8 +119,10 @@ export class AdminComponent extends Blog implements OnInit {
   }
 
   delete(data: any) {
-    // this.adminService.deleteData(data).subscribe((res: any) => {
-    //   this.getDataList();
-    // });
+    this.adminService
+      .deleteData(this.table.name, data)
+      .subscribe((res: any) => {
+        this.getDataList(this.table.name);
+      });
   }
 }

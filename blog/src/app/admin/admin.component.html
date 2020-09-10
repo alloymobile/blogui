@@ -13,21 +13,21 @@
   <img src="../../assets/loading.gif" alt="Fetching Data From Server" />
 </div>
 <div class="container">
-  <h4>
-    <button class="btn btn-primary" (click)="openModal(true)">Add</button
-    >{{ "category" }}
-  </h4>
+  <div class="d-flex justify-content-between">
+    <h4>{{ table.name }}</h4>
+    <button class="btn btn-primary" (click)="openModal(true)">Add</button>
+  </div>
   <table class="table table-striped text-center">
     <thead>
       <tr>
-        <th scope="col" *ngFor="let head of data.tableHead">
+        <th scope="col" *ngFor="let head of tableHead">
           {{ head.name }}
         </th>
         <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let body of data.tableBody; index as j">
+      <tr *ngFor="let body of tableBody; index as j">
         <td *ngFor="let key of body | keyvalue">
           {{ key.value }}
         </td>
@@ -75,12 +75,13 @@
           >
             <label for="{{ c.key + i }}">{{ c.key }}</label>
             <input
-              *ngIf="data.tableHead.length > 0"
+              *ngIf="tableHead.length > 0"
               id="{{ c.key + i }}"
-              type="{{ data.tableHead[i].dataType }}"
+              type="{{ tableHead[i].dataType }}"
               class="form-control"
               formControlName="{{ c.key }}"
               placeholder="{{ c.key }}"
+              [readonly]="false"
             />
           </div>
         </div>
