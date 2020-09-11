@@ -31,10 +31,14 @@ export const TableName: any = {
 };
 
 export class Table {
-  constructor(className: string, opts: any) {
+  constructor(className: string, opts?: any) {
     if (TableName[className] === undefined || TableName[className] === null) {
       throw new Error(`Class type of \'${className}\' is not a table`);
     }
-    return new TableName[className](opts);
+    if (opts) {
+      return new TableName[className](opts);
+    } else {
+      return new TableName[className]();
+    }
   }
 }

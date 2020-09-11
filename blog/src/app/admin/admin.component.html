@@ -90,14 +90,14 @@
         </button>
       </div>
       <form
-        [formGroup]="categoryForm"
+        [formGroup]="dataForm"
         (ngSubmit)="submitData()"
         #loginForm="ngForm"
       >
-        <div class="modal-body" *ngIf="category != undefined">
+        <div class="modal-body" *ngIf="columns != undefined">
           <div
             class="form-group"
-            *ngFor="let c of category | keyvalue; index as i"
+            *ngFor="let c of columns | keyvalue; index as i"
           >
             <label for="{{ c.key + i }}">{{ c.key }}</label>
             <input

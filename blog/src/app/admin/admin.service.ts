@@ -2,8 +2,6 @@ import { Page, TableMetadata } from './../model/metadata.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Blog } from '../blog';
-import { map } from 'rxjs/operators';
-import 'jquery';
 
 @Injectable({
   providedIn: 'root',

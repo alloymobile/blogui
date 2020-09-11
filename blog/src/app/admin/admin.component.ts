@@ -15,13 +15,25 @@ declare var $: any;
   providers: [AdminService],
 })
 export class AdminComponent extends Blog implements OnInit {
+  //Stores all the names of table
   tables: TableMetadata[];
-  categoryForm: FormGroup;
-  category: any;
-  loadData: boolean;
+  //Holds the current table
   table: TableMetadata;
+
+  //reactive form for data input
+  dataForm: FormGroup;
+
+  //Holds the list data fetch from server
   tableBody: any[];
+  //Contains all metadata for the table columns
   tableHead: ColumnMetadata[];
+  //holds all the columns for a specific table used in crud
+  columns: any;
+
+  //spinner used to show when data loading from backend
+  loadData: boolean;
+
+  //specifies the crud modals
   modalType: string;
 
   constructor(
@@ -30,9 +42,7 @@ export class AdminComponent extends Blog implements OnInit {
   ) {
     super();
     this.tableHead = [];
-    this.tableBody = [];
-    this.categoryForm = this.createData();
-    this.category = new Category();
+    this.dataForm = this.createData();
     this.tables = [];
     this.table = new TableMetadata();
     this.loadData = false;
@@ -42,9 +52,10 @@ export class AdminComponent extends Blog implements OnInit {
   ngOnInit(): void {
     this.tables = [];
     this.getBlog();
-    this.categoryForm = this.createData();
+    this.dataForm = this.createData();
   }
 
+  //Get all the table names for the blog
   getBlog() {
     this.adminService.getBlog(this.metadata).subscribe((res: any) => {
       res.forEach((element) => {
@@ -53,23 +64,28 @@ export class AdminComponent extends Blog implements OnInit {
     });
   }
 
+  //Get all pagignated data for the current table
   showList(table: TableMetadata) {
     this.table = table;
+    this.columns = new Table(titleCase(table.name));
     this.getDataList(this.table.name);
   }
 
+  //Used to open add,update or delete modal
   openModal(open: boolean, modalType?: string, data?: any) {
     if (open) {
-      this.categoryForm = this.createData(data);
+      this.dataForm = this.createData(data);
       $('#myModal').modal('show');
     } else {
-      this.categoryForm = this.createData(data);
+      this.dataForm = this.createData(data);
       $('#myModal').modal('hide');
     }
     modalType ? (this.modalType = modalType) : (this.modalType = '');
   }
 
+  //Used to create the form group
   createData(data?: any) {
+    let group = {};
     if (data) {
       return this.formBuilder.group({
         id: [data.id, Validators.required],
@@ -83,25 +99,26 @@ export class AdminComponent extends Blog implements OnInit {
     }
   }
 
+  //Submit user changes and updates
   submitData() {
-    this.category = this.categoryForm.value;
-    if (this.category.id != 0) {
+    this.columns = this.dataForm.value;
+    if (this.columns.id != 0) {
       if (this.modalType === 'Update') {
         this.adminService
-          .updateData(this.table.name, this.category)
+          .updateData(this.table.name, this.columns)
           .subscribe((res) => {
             this.getDataList(this.table.name);
           });
       } else if (this.modalType === 'Delete') {
         this.adminService
-          .deleteData(this.table.name, this.category)
+          .deleteData(this.table.name, this.columns)
           .subscribe((res: any) => {
             this.getDataList(this.table.name);
           });
       }
     } else {
       this.adminService
-        .addData(this.table.name, this.category)
+        .addData(this.table.name, this.columns)
         .subscribe((res) => {
           this.getDataList(this.table.name);
         });
@@ -109,6 +126,7 @@ export class AdminComponent extends Blog implements OnInit {
     $('#myModal').modal('hide');
   }
 
+  //Fetch the data list
   getDataList(tableName: string) {
     this.tableHead = [];
     this.tableBody = [];
