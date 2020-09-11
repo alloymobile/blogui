@@ -4,7 +4,12 @@ import { Blog } from './../blog';
 import { TableMetadata, ColumnMetadata } from '../model/metadata.model';
 import { AdminService } from './admin.service';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { titleCase } from 'title-case';
 declare var $: any;
 
@@ -52,7 +57,6 @@ export class AdminComponent extends Blog implements OnInit {
   ngOnInit(): void {
     this.tables = [];
     this.getBlog();
-    this.dataForm = this.createData();
   }
 
   //Get all the table names for the blog
@@ -85,22 +89,24 @@ export class AdminComponent extends Blog implements OnInit {
 
   //Used to create the form group
   createData(data?: any) {
-    let group = {};
     if (data) {
-      return this.formBuilder.group({
-        id: [data.id, Validators.required],
-        name: [data.name, Validators.required],
+      let group = {};
+      Object.entries(data).forEach((column) => {
+        group[column[0]] = new FormControl(column[1]);
       });
+      return new FormGroup(group);
     } else {
-      return this.formBuilder.group({
-        id: [0, Validators.required],
-        name: ['Country', Validators.required],
+      let group = {};
+      this.tableHead.forEach((column) => {
+        group[column.name] = new FormControl();
       });
+      return new FormGroup(group);
     }
   }
 
   //Submit user changes and updates
   submitData() {
+    console.log(this.dataForm.value);
     this.columns = this.dataForm.value;
     if (this.columns.id != 0) {
       if (this.modalType === 'Update') {
@@ -135,6 +141,7 @@ export class AdminComponent extends Blog implements OnInit {
       res.forEach((element) => {
         this.tableHead.push(new ColumnMetadata(element));
       });
+      this.dataForm = this.createData();
     });
     let page = new Page();
     this.adminService.getDataList(tableName, page).subscribe(
