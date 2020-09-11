@@ -1,9 +1,11 @@
+import { Table, Category } from './../model/object.model';
+import { Page } from './../model/metadata.model';
 import { Blog } from './../blog';
-import { Category } from '../model/category.model';
 import { TableMetadata, ColumnMetadata } from '../model/metadata.model';
 import { AdminService } from './admin.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { titleCase } from 'title-case';
 declare var $: any;
 
 @Component({
@@ -34,7 +36,7 @@ export class AdminComponent extends Blog implements OnInit {
     this.tables = [];
     this.table = new TableMetadata();
     this.loadData = false;
-    this.modalType = "Hi";
+    this.modalType = '';
   }
 
   ngOnInit(): void {
@@ -64,7 +66,7 @@ export class AdminComponent extends Blog implements OnInit {
       this.categoryForm = this.createData(data);
       $('#myModal').modal('hide');
     }
-    modalType? this.modalType = modalType : this.modalType = "";
+    modalType ? (this.modalType = modalType) : (this.modalType = '');
   }
 
   createData(data?: any) {
@@ -84,43 +86,43 @@ export class AdminComponent extends Blog implements OnInit {
   submitData() {
     this.category = this.categoryForm.value;
     if (this.category.id != 0) {
-      if(this.modalType === "Update"){
+      if (this.modalType === 'Update') {
         this.adminService
-        .updateData(this.table.name, this.category)
-        .subscribe((res) => {
-          this.getDataList(this.table.name);
-        });
-      }else if(this.modalType === "Delete"){
+          .updateData(this.table.name, this.category)
+          .subscribe((res) => {
+            this.getDataList(this.table.name);
+          });
+      } else if (this.modalType === 'Delete') {
         this.adminService
-        .deleteData(this.table.name, this.category)
-        .subscribe((res: any) => {
-          this.getDataList(this.table.name);
-        });
+          .deleteData(this.table.name, this.category)
+          .subscribe((res: any) => {
+            this.getDataList(this.table.name);
+          });
       }
     } else {
       this.adminService
-      .addData(this.table.name, this.category)
-      .subscribe((res) => {
-        this.getDataList(this.table.name);
-      });
+        .addData(this.table.name, this.category)
+        .subscribe((res) => {
+          this.getDataList(this.table.name);
+        });
     }
     $('#myModal').modal('hide');
   }
 
-  getDataList(table: string) {
+  getDataList(tableName: string) {
     this.tableHead = [];
     this.tableBody = [];
     this.loadData = true;
-    this.adminService.getMetadata(table).subscribe((res: any) => {
+    this.adminService.getMetadata(tableName).subscribe((res: any) => {
       res.forEach((element) => {
         this.tableHead.push(new ColumnMetadata(element));
       });
     });
-
-    this.adminService.getDataList(table).subscribe(
+    let page = new Page();
+    this.adminService.getDataList(tableName, page).subscribe(
       (res: any) => {
         res.content.forEach((element) => {
-          this.tableBody.push(new Category(element));
+          this.tableBody.push(new Table(titleCase(tableName), element));
           this.loadData = false;
         });
       },

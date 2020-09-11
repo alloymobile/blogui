@@ -1,13 +1,18 @@
+import { Page, TableMetadata } from './../model/metadata.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Blog } from '../blog';
+import { map } from 'rxjs/operators';
+import 'jquery';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminService extends Blog {
+  tables: TableMetadata[];
   constructor(private http: HttpClient) {
     super();
+    this.tables = [];
   }
 
   getBlog(metadata: string) {
@@ -16,8 +21,12 @@ export class AdminService extends Blog {
     return this.http.get(apiEndPoint, { headers: this.headers });
   }
 
-  getDataList(metadata: string) {
+  getDataList(metadata: string, page?: Page, sort?: string) {
     let apiEndPoint = this.apiEndPoint + '/' + metadata;
+    let params = this.getParamString(page, sort);
+    if (params) {
+      apiEndPoint = apiEndPoint + params;
+    }
     return this.http.get(apiEndPoint, { headers: this.headers });
   }
 

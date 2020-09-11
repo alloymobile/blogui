@@ -24,3 +24,18 @@ export class ColumnMetadata {
     }
   }
 }
+
+export class Page {
+  size: number;
+  page: number;
+
+  constructor(page?: any) {
+    if (page) {
+      this.size = 20;
+      this.page = 0;
+    } else {
+      this.size = 20;
+      this.page = 0;
+    }
+  }
+}

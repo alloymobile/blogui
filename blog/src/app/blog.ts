@@ -1,3 +1,4 @@
+import { Page } from './model/metadata.model';
 import { HttpHeaders } from '@angular/common/http';
 export class Blog {
   headers: HttpHeaders;
@@ -12,5 +13,13 @@ export class Blog {
         'Bearer ' + user.token
       );
     }
+  }
+
+  getParamString(page: Page, sort: string): string {
+    let param: string;
+    if (page) {
+      param = '?page=' + page.page + '&size=' + page.size;
+    }
+    return param;
   }
 }

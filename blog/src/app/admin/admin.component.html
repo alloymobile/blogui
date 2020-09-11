@@ -14,14 +14,16 @@
 </div>
 <div class="container">
   <div class="d-flex justify-content-between">
-    <h4>{{ table.name }}</h4>
-    <button class="btn btn-primary" (click)="openModal(true,'Add')">Add</button>
+    <h4>{{ table.name | titlecase }}</h4>
+    <button class="btn btn-primary" (click)="openModal(true, 'Add')">
+      Add
+    </button>
   </div>
   <table class="table table-striped text-center">
     <thead>
       <tr>
         <th scope="col" *ngFor="let head of tableHead">
-          {{ head.name}}
+          {{ head.name }}
         </th>
         <th scope="col">Action</th>
       </tr>
@@ -32,14 +34,36 @@
           {{ key.value }}
         </td>
         <td>
-          <button class="btn btn-primary" (click)="openModal(true, 'Update',body)">
+          <button
+            class="btn btn-primary"
+            (click)="openModal(true, 'Update', body)"
+          >
             Update
           </button>
-          <button class="btn btn-primary" (click)="openModal(true,'Delete',body)">Delete</button>
+          <button
+            class="btn btn-primary"
+            (click)="openModal(true, 'Delete', body)"
+          >
+            Delete
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
+  <!--Pagignation links-->
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1">Previous</a>
+      </li>
+      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#">Next</a>
+      </li>
+    </ul>
+  </nav>
 </div>
 <!-- Modal -->
 <div
@@ -53,7 +77,9 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{{modalType +" a "+table.name}}</h5>
+        <h5 class="modal-title" id="exampleModalLabel">
+          {{ modalType + " a " + table.name }}
+        </h5>
         <button
           type="button"
           class="close"
@@ -81,7 +107,7 @@
               class="form-control"
               formControlName="{{ c.key }}"
               placeholder="{{ c.key }}"
-              [readonly]="tableHead[i].readOnly || modalType=='Delete'"
+              [readonly]="tableHead[i].readOnly"
             />
           </div>
         </div>
@@ -93,11 +119,8 @@
           >
             Close
           </button>
-          <button
-            type="submit"
-            class="btn btn-primary"
-          >
-            {{modalType}}
+          <button type="submit" class="btn btn-primary">
+            {{ modalType }}
           </button>
         </div>
       </form>
