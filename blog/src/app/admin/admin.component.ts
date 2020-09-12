@@ -52,10 +52,10 @@ export class AdminComponent extends Blog implements OnInit {
     this.table = new TableMetadata();
     this.loadData = false;
     this.modalType = '';
+    this.page = new Page();
   }
 
   ngOnInit(): void {
-    this.tables = [];
     this.getBlog();
   }
 
@@ -72,7 +72,7 @@ export class AdminComponent extends Blog implements OnInit {
   showList(table: TableMetadata) {
     this.table = table;
     this.columns = new Table(titleCase(table.name));
-    this.getDataList(this.table.name);
+    this.getDataList();
   }
 
   //Used to open add,update or delete modal
@@ -106,52 +106,76 @@ export class AdminComponent extends Blog implements OnInit {
 
   //Submit user changes and updates
   submitData() {
-    console.log(this.dataForm.value);
     this.columns = this.dataForm.value;
     if (this.columns.id != 0) {
       if (this.modalType === 'Update') {
         this.adminService
           .updateData(this.table.name, this.columns)
           .subscribe((res) => {
-            this.getDataList(this.table.name);
+            this.getDataList();
           });
       } else if (this.modalType === 'Delete') {
         this.adminService
           .deleteData(this.table.name, this.columns)
           .subscribe((res: any) => {
-            this.getDataList(this.table.name);
+            this.getDataList();
           });
       }
     } else {
       this.adminService
         .addData(this.table.name, this.columns)
         .subscribe((res) => {
-          this.getDataList(this.table.name);
+          this.getDataList();
         });
     }
     $('#myModal').modal('hide');
   }
 
   //Fetch the data list
-  getDataList(tableName: string) {
+  getDataList(pageNumber?: number, column?: string) {
     this.tableHead = [];
     this.tableBody = [];
     this.loadData = true;
-    this.adminService.getMetadata(tableName).subscribe((res: any) => {
+    // this.page.sort.direction = !this.page.sort.direction;
+    pageNumber
+      ? (this.page.pageNumber = pageNumber)
+      : (this.page.pageNumber = 0);
+    //Fetching all the table head fields and properties
+    this.adminService.getMetadata(this.table.name).subscribe((res: any) => {
       res.forEach((element) => {
         this.tableHead.push(new ColumnMetadata(element));
       });
       this.dataForm = this.createData();
+      //Fetching the actual data based page and sort
+      if (column) {
+        this.adminService
+          .getDataList(this.table.name, this.page, column)
+          .subscribe(
+            (res: any) => {
+              this.page = new Page(res);
+              res.content.forEach((element) => {
+                this.tableBody.push(
+                  new Table(titleCase(this.table.name), element)
+                );
+                this.loadData = false;
+              });
+            },
+            (error) => {}
+          );
+      } else {
+        this.adminService.getDataList(this.table.name, this.page).subscribe(
+          (res: any) => {
+            this.page = new Page(res);
+            res.content.forEach((element) => {
+              this.tableBody.push(
+                new Table(titleCase(this.table.name), element)
+              );
+              this.loadData = false;
+            });
+          },
+          (error) => {}
+        );
+      }
     });
-    let page = new Page();
-    this.adminService.getDataList(tableName, page).subscribe(
-      (res: any) => {
-        res.content.forEach((element) => {
-          this.tableBody.push(new Table(titleCase(tableName), element));
-          this.loadData = false;
-        });
-      },
-      (error) => {}
-    );
   }
 }

@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent, LoginComponent, AdminComponent],
@@ -20,6 +21,7 @@ import { AdminComponent } from './admin/admin.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    FontAwesomeModule,
   ],
   providers: [DataService, PostUserService, AuthService],
   bootstrap: [AppComponent],

@@ -5,7 +5,7 @@
       [routerLink]=""
       role="button"
       (click)="showList(table)"
-      >{{ table.name }}</a
+      >{{ table.name | titlecase }}</a
     >
   </li>
 </ul>
@@ -15,15 +15,38 @@
 <div class="container">
   <div class="d-flex justify-content-between">
     <h4>{{ table.name | titlecase }}</h4>
+    <div class="form-inline">
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          id="inlineFormInputGroup"
+          placeholder="Search"
+        />
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <span class="icon"><fa-icon [icon]="searchIcon"></fa-icon></span>
+          </div>
+          <div class="input-group-text">
+            <span class="icon"><fa-icon [icon]="cross"></fa-icon></span>
+          </div>
+        </div>
+      </div>
+    </div>
     <button class="btn btn-primary" (click)="openModal(true, 'Add')">
-      Add
+      <span class="icon"><fa-icon [icon]="add"></fa-icon></span>
     </button>
   </div>
-  <table class="table table-striped text-center">
+  <table class="table table-sm table-striped text-center">
     <thead>
       <tr>
-        <th scope="col" *ngFor="let head of tableHead">
+        <th
+          scope="col"
+          *ngFor="let head of tableHead"
+          (click)="getDataList(0, head.name)"
+        >
           {{ head.name }}
+          <span class="icon"><fa-icon [icon]="downToggle"></fa-icon></span>
         </th>
         <th scope="col">Action</th>
       </tr>
@@ -35,16 +58,16 @@
         </td>
         <td>
           <button
-            class="btn btn-primary"
+            class="btn btn-primary m-2"
             (click)="openModal(true, 'Update', body)"
           >
-            Update
+            <span class="icon"><fa-icon [icon]="update"></fa-icon></span>
           </button>
           <button
-            class="btn btn-primary"
+            class="btn btn-primary m-2"
             (click)="openModal(true, 'Delete', body)"
           >
-            Delete
+            <span class="icon"><fa-icon [icon]="delete"></fa-icon></span>
           </button>
         </td>
       </tr>
@@ -53,14 +76,16 @@
   <!--Pagignation links-->
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-end">
-      <li class="page-item disabled">
-        <a class="page-link" href="#" tabindex="-1">Previous</a>
+      <li class="page-item" [ngClass]="{ disabled: page.first }">
+        <a class="page-link" [routerLink]="">Previous</a>
       </li>
-      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
+      <li class="page-item" *ngFor="let p of page.pages">
+        <a class="page-link" [routerLink]="" (click)="getDataList(p)">{{
+          p + 1
+        }}</a>
+      </li>
+      <li class="page-item" [ngClass]="{ disabled: page.last }">
+        <a class="page-link" [routerLink]="">Next</a>
       </li>
     </ul>
   </nav>
