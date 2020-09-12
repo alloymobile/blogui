@@ -28,7 +28,7 @@ export class AdminService extends Blog {
   }
 
   //Get all the data for the table in pagignated way and sorted
-  getDataList(metadata: string, page?: Page, column?: string) {
+  getDataList(metadata: string, page?: Page, column?: string, filter?: string) {
     let apiEndPoint = this.apiEndPoint + '/' + metadata;
     let params = this.getParamString(page, column);
     if (params) {

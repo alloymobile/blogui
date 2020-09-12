@@ -80,7 +80,7 @@ export class Page {
       this.empty = res.empty;
     } else {
       this.offset = 0;
-      this.pageSize = 2;
+      this.pageSize = 4;
       this.pageNumber = 0;
       this.paged = true;
       this.unpaged = false;

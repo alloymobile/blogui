@@ -72,7 +72,7 @@ export class AdminComponent extends Blog implements OnInit {
   showList(table: TableMetadata) {
     this.table = table;
     this.columns = new Table(titleCase(table.name));
-    this.getDataList();
+    this.getDataHead();
   }
 
   //Used to open add,update or delete modal
@@ -107,75 +107,63 @@ export class AdminComponent extends Blog implements OnInit {
   //Submit user changes and updates
   submitData() {
     this.columns = this.dataForm.value;
-    if (this.columns.id != 0) {
+    if (this.columns.id == 0 || this.columns.id == null) {
+      this.adminService
+        .addData(this.table.name, this.columns)
+        .subscribe((res) => {
+          this.getDataBody();
+        });
+    } else {
       if (this.modalType === 'Update') {
         this.adminService
           .updateData(this.table.name, this.columns)
           .subscribe((res) => {
-            this.getDataList();
+            this.getDataBody();
           });
       } else if (this.modalType === 'Delete') {
         this.adminService
           .deleteData(this.table.name, this.columns)
           .subscribe((res: any) => {
-            this.getDataList();
+            this.getDataBody();
           });
       }
-    } else {
-      this.adminService
-        .addData(this.table.name, this.columns)
-        .subscribe((res) => {
-          this.getDataList();
-        });
     }
     $('#myModal').modal('hide');
   }
 
-  //Fetch the data list
-  getDataList(pageNumber?: number, column?: string) {
+  getFilterDataList(pageNumber?: number, column?: string) {
     this.tableHead = [];
     this.tableBody = [];
     this.loadData = true;
-    // this.page.sort.direction = !this.page.sort.direction;
     pageNumber
       ? (this.page.pageNumber = pageNumber)
       : (this.page.pageNumber = 0);
+
+    this.dataForm = this.createData();
+  }
+
+  //Fetch the data list
+  getDataHead() {
+    this.tableHead = [];
+    this.loadData = true;
     //Fetching all the table head fields and properties
     this.adminService.getMetadata(this.table.name).subscribe((res: any) => {
       res.forEach((element) => {
         this.tableHead.push(new ColumnMetadata(element));
       });
       this.dataForm = this.createData();
-      //Fetching the actual data based page and sort
-      if (column) {
-        this.adminService
-          .getDataList(this.table.name, this.page, column)
-          .subscribe(
-            (res: any) => {
-              this.page = new Page(res);
-              res.content.forEach((element) => {
-                this.tableBody.push(
-                  new Table(titleCase(this.table.name), element)
-                );
-                this.loadData = false;
-              });
-            },
-            (error) => {}
-          );
-      } else {
-        this.adminService.getDataList(this.table.name, this.page).subscribe(
-          (res: any) => {
-            this.page = new Page(res);
-            res.content.forEach((element) => {
-              this.tableBody.push(
-                new Table(titleCase(this.table.name), element)
-              );
-              this.loadData = false;
-            });
-          },
-          (error) => {}
-        );
-      }
+      this.getDataBody();
+    });
+  }
+
+  getDataBody() {
+    this.tableBody = [];
+    this.adminService.getDataList(this.table.name).subscribe((res: any) => {
+      this.page = new Page(res);
+      res.content.forEach((element) => {
+        this.tableBody.push(new Table(titleCase(this.table.name), element));
+        this.loadData = false;
+      });
     });
   }
 }
