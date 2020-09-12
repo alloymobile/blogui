@@ -29,6 +29,10 @@ export class Blog {
   update = faEdit;
   delete = faTrashAlt;
 
+  constructor() {
+    this.page = new Page();
+  }
+
   addTokenInHeader() {
     if (localStorage.getItem('user')) {
       let user = JSON.parse(localStorage.getItem('user'));
@@ -62,7 +66,6 @@ export class Blog {
       return column.name + ',asc';
     }
   }
-
   getSearchParamString(
     page?: Page,
     filter?: String,

@@ -8,6 +8,16 @@ export class TableMetadata {
     }
   }
 }
+
+export class Active {
+  table: string;
+  page: number;
+  constructor() {
+    this.table = '';
+    this.page = 0;
+  }
+}
+
 export class ColumnMetadata {
   name: string;
   dataType: string;

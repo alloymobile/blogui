@@ -1,6 +1,11 @@
 import { Table } from './../model/object.model';
 import { Blog } from './../blog';
-import { Page, TableMetadata, ColumnMetadata } from '../model/metadata.model';
+import {
+  Page,
+  TableMetadata,
+  ColumnMetadata,
+  Active,
+} from '../model/metadata.model';
 import { AdminService } from './admin.service';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -34,14 +39,17 @@ export class AdminComponent extends Blog implements OnInit {
   //holds all the columns for a specific table used in crud
   columns: any;
 
-  //spinner used to show when data loading from backend
-  loadData: boolean;
+  // //spinner used to show when data loading from backend
+  // loadData: boolean;
 
   //specifies the crud modals
   modalType: string;
 
   //Search String
   search: string;
+
+  //Select the active table
+  active: Active;
 
   constructor(
     private adminService: AdminService,
@@ -52,10 +60,10 @@ export class AdminComponent extends Blog implements OnInit {
     this.dataForm = this.createData();
     this.tables = [];
     this.table = new TableMetadata();
-    this.loadData = false;
+    // this.loadData = false;
     this.modalType = '';
     this.search = '';
-    this.page = new Page();
+    this.active = new Active();
   }
 
   ngOnInit(): void {
@@ -74,6 +82,7 @@ export class AdminComponent extends Blog implements OnInit {
   //Get all pagignated data for the current table
   showList(table: TableMetadata) {
     this.table = table;
+    this.active.table = table.name;
     this.columns = new Table(titleCase(table.name));
     this.getDataHead();
   }
@@ -136,7 +145,7 @@ export class AdminComponent extends Blog implements OnInit {
 
   getSearchDataList(pageNumber?: number) {
     this.tableBody = [];
-    this.loadData = true;
+    // this.loadData = true;
     pageNumber
       ? (this.page.pageNumber = pageNumber)
       : (this.page.pageNumber = 0);
@@ -146,14 +155,22 @@ export class AdminComponent extends Blog implements OnInit {
         this.page = new Page(res);
         res.content.forEach((element) => {
           this.tableBody.push(new Table(titleCase(this.table.name), element));
-          this.loadData = false;
+          // this.loadData = false;
         });
       });
   }
 
   getFilterDataList(pageNumber?: number, column?: ColumnMetadata) {
+    this.active.page = pageNumber;
     this.tableBody = [];
-    this.loadData = true;
+    // this.loadData = true;
+    if (column) {
+      this.tableHead.forEach((head) =>
+        head.name !== column.name
+          ? (head.sortOrder = false)
+          : (head.sortOrder = !head.sortOrder)
+      );
+    }
     pageNumber
       ? (this.page.pageNumber = pageNumber)
       : (this.page.pageNumber = 0);
@@ -163,7 +180,7 @@ export class AdminComponent extends Blog implements OnInit {
         this.page = new Page(res);
         res.content.forEach((element) => {
           this.tableBody.push(new Table(titleCase(this.table.name), element));
-          this.loadData = false;
+          // this.loadData = false;
         });
       });
   }
@@ -171,7 +188,7 @@ export class AdminComponent extends Blog implements OnInit {
   //Fetch the data list
   getDataHead() {
     this.tableHead = [];
-    this.loadData = true;
+    // this.loadData = true;
     //Fetching all the table head fields and properties
     this.adminService.getMetadata(this.table.name).subscribe((res: any) => {
       res.forEach((element) => {
@@ -190,7 +207,7 @@ export class AdminComponent extends Blog implements OnInit {
         this.page = new Page(res);
         res.content.forEach((element) => {
           this.tableBody.push(new Table(titleCase(this.table.name), element));
-          this.loadData = false;
+          // this.loadData = false;
         });
       });
   }
