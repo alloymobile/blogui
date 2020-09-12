@@ -1,4 +1,4 @@
-import { Page } from './model/metadata.model';
+import { Page, ColumnMetadata } from './model/metadata.model';
 import { HttpHeaders } from '@angular/common/http';
 import {
   faSearch,
@@ -39,7 +39,7 @@ export class Blog {
     }
   }
 
-  getParamString(page?: Page, column?: string): string {
+  getParamString(page?: Page, column?: ColumnMetadata): string {
     let param: string = '';
     if (page && column) {
       param =
@@ -48,18 +48,53 @@ export class Blog {
         '&size=' +
         page.pageSize +
         '&sort=' +
-        this.getSort(column, page.sort.direction);
-    } else if (page && !column) {
+        this.getSort(column);
+    } else if (page) {
       param = '?page=' + page.pageNumber + '&size=' + page.pageSize;
     }
     return param;
   }
 
-  getSort(column: string, sort: boolean): string {
-    if (sort) {
-      return column + ',desc';
+  getSort(column: ColumnMetadata): string {
+    if (column.sortOrder) {
+      return column.name + ',desc';
     } else {
-      return column + ',asc';
+      return column.name + ',asc';
     }
+  }
+
+  getSearchParamString(
+    page?: Page,
+    filter?: String,
+    columns?: ColumnMetadata[]
+  ): string {
+    let param: string = '';
+    if (page && filter) {
+      param =
+        '?page=' +
+        page.pageNumber +
+        '&size=' +
+        page.pageSize +
+        this.getSearchString(filter, columns);
+    } else if (page) {
+      param = '?page=' + page.pageNumber + '&size=' + page.pageSize;
+    }
+    return param;
+  }
+
+  getSearchString(filter: any, columns: ColumnMetadata[]): string {
+    let filterString = '';
+    Object.keys(columns).forEach((key) => {
+      if (key.includes('id')) {
+        if (!isNaN(filter)) {
+          filterString = filterString + '&' + key + '=' + filter;
+        }
+      } else {
+        if (isNaN(filter)) {
+          filterString = filterString + '&' + key + '=' + filter;
+        }
+      }
+    });
+    return filterString;
   }
 }

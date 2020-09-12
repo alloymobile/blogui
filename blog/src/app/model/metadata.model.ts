@@ -12,15 +12,18 @@ export class ColumnMetadata {
   name: string;
   dataType: string;
   readOnly: boolean;
+  sortOrder: boolean;
   constructor(columnMetadata?: any) {
     if (columnMetadata) {
       this.name = columnMetadata.name;
       this.dataType = columnMetadata.dataType;
       this.readOnly = columnMetadata.readOnly;
+      this.sortOrder = columnMetadata.sortOrder;
     } else {
       this.name = '';
       this.dataType = '';
       this.readOnly = true;
+      this.sortOrder = false;
     }
   }
 }
@@ -29,18 +32,15 @@ export class Sort {
   sorted: boolean;
   unsorted: boolean;
   empty: boolean;
-  direction: boolean;
   constructor(sort?: any) {
     if (sort) {
       this.sorted = sort.sorted;
       this.unsorted = sort.unsorted;
       this.empty = sort.empty;
-      this.direction = sort.direction;
     } else {
       this.sorted = false;
       this.unsorted = true;
       this.empty = true;
-      this.direction = false;
     }
   }
 }

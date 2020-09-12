@@ -1,4 +1,4 @@
-import { Page, TableMetadata } from './../model/metadata.model';
+import { Page, TableMetadata, ColumnMetadata } from './../model/metadata.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Blog } from '../blog';
@@ -27,8 +27,23 @@ export class AdminService extends Blog {
     return this.http.get(apiEndPoint, { headers: this.headers });
   }
 
+  //Get all the data for the table in pagignated way and searched
+  getSearchDataList(
+    metadata: string,
+    page?: Page,
+    filter?: string,
+    columns?: ColumnMetadata[]
+  ) {
+    let apiEndPoint = this.apiEndPoint + '/' + metadata;
+    let params = this.getSearchParamString(page, filter, columns);
+    if (params) {
+      apiEndPoint = apiEndPoint + params;
+    }
+    return this.http.get(apiEndPoint, { headers: this.headers });
+  }
+
   //Get all the data for the table in pagignated way and sorted
-  getDataList(metadata: string, page?: Page, column?: string, filter?: string) {
+  getDataList(metadata: string, page?: Page, column?: ColumnMetadata) {
     let apiEndPoint = this.apiEndPoint + '/' + metadata;
     let params = this.getParamString(page, column);
     if (params) {

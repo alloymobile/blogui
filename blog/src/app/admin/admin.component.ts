@@ -1,7 +1,6 @@
-import { Table, Category } from './../model/object.model';
-import { Page } from './../model/metadata.model';
+import { Table } from './../model/object.model';
 import { Blog } from './../blog';
-import { TableMetadata, ColumnMetadata } from '../model/metadata.model';
+import { Page, TableMetadata, ColumnMetadata } from '../model/metadata.model';
 import { AdminService } from './admin.service';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -41,6 +40,9 @@ export class AdminComponent extends Blog implements OnInit {
   //specifies the crud modals
   modalType: string;
 
+  //Search String
+  search: string;
+
   constructor(
     private adminService: AdminService,
     private formBuilder: FormBuilder
@@ -52,6 +54,7 @@ export class AdminComponent extends Blog implements OnInit {
     this.table = new TableMetadata();
     this.loadData = false;
     this.modalType = '';
+    this.search = '';
     this.page = new Page();
   }
 
@@ -131,15 +134,38 @@ export class AdminComponent extends Blog implements OnInit {
     $('#myModal').modal('hide');
   }
 
-  getFilterDataList(pageNumber?: number, column?: string) {
-    this.tableHead = [];
+  getSearchDataList(pageNumber?: number) {
     this.tableBody = [];
     this.loadData = true;
     pageNumber
       ? (this.page.pageNumber = pageNumber)
       : (this.page.pageNumber = 0);
+    this.adminService
+      .getSearchDataList(this.table.name, this.page, this.search, this.columns)
+      .subscribe((res: any) => {
+        this.page = new Page(res);
+        res.content.forEach((element) => {
+          this.tableBody.push(new Table(titleCase(this.table.name), element));
+          this.loadData = false;
+        });
+      });
+  }
 
-    this.dataForm = this.createData();
+  getFilterDataList(pageNumber?: number, column?: ColumnMetadata) {
+    this.tableBody = [];
+    this.loadData = true;
+    pageNumber
+      ? (this.page.pageNumber = pageNumber)
+      : (this.page.pageNumber = 0);
+    this.adminService
+      .getDataList(this.table.name, this.page, column)
+      .subscribe((res: any) => {
+        this.page = new Page(res);
+        res.content.forEach((element) => {
+          this.tableBody.push(new Table(titleCase(this.table.name), element));
+          this.loadData = false;
+        });
+      });
   }
 
   //Fetch the data list
@@ -158,12 +184,14 @@ export class AdminComponent extends Blog implements OnInit {
 
   getDataBody() {
     this.tableBody = [];
-    this.adminService.getDataList(this.table.name).subscribe((res: any) => {
-      this.page = new Page(res);
-      res.content.forEach((element) => {
-        this.tableBody.push(new Table(titleCase(this.table.name), element));
-        this.loadData = false;
+    this.adminService
+      .getDataList(this.table.name, this.page)
+      .subscribe((res: any) => {
+        this.page = new Page(res);
+        res.content.forEach((element) => {
+          this.tableBody.push(new Table(titleCase(this.table.name), element));
+          this.loadData = false;
+        });
       });
-    });
   }
 }
