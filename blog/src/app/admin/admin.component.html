@@ -162,15 +162,12 @@
             class="form-group"
             *ngFor="let c of columns | keyvalue; index as i"
           >
-            <label for="{{ c.key + i }}">{{ c.key }}</label>
+            <label for="{{ c.value.id }}">{{ c.value.name }}</label>
             <input
-              *ngIf="tableHead.length > 0"
-              id="{{ c.key + i }}"
-              type="{{ tableHead[i].dataType }}"
+              [id]="c.value.id"
+              [type]="c.value.type"
               class="form-control"
-              formControlName="{{ c.key }}"
-              placeholder="{{ c.key }}"
-              [readonly]="tableHead[i].readOnly"
+              [formControlName]="c.key"
             />
           </div>
         </div>

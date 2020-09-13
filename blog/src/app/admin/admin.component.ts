@@ -36,12 +36,11 @@ export class AdminComponent extends Blog implements OnInit {
   tableBody: any[];
   //Contains all metadata for the table columns
   columnName: any;
-  //Contains all metadata for the table columns
-  tableHead: ColumnMetadata[];
-  //holds all the columns for a specific table used in crud
+  //holds all the columns and their metadata used for forms
   columns: any;
-
-  // //spinner used to show when data loading from backend
+  //holds all the columns for a specific table used in crud
+  columnData: any;
+  //spinner used to show when data loading from backend
   loadData: boolean;
 
   //specifies the crud modals
@@ -58,7 +57,7 @@ export class AdminComponent extends Blog implements OnInit {
     private formBuilder: FormBuilder
   ) {
     super();
-    this.tableHead = [];
+    this.columns = {};
     this.dataForm = this.createData();
     this.tables = [];
     this.table = new TableMetadata();
@@ -87,64 +86,8 @@ export class AdminComponent extends Blog implements OnInit {
     this.active.table = table.name;
     this.active.page = 0;
     this.page = new Page();
-    this.columns = new Table(titleCase(table.name));
+    this.columnData = new Table(titleCase(this.table.name));
     this.getDataHead();
-  }
-
-  //Used to open add,update or delete modal
-  openModal(open: boolean, modalType?: string, data?: any) {
-    if (open) {
-      this.dataForm = this.createData(data);
-      $('#myModal').modal('show');
-    } else {
-      this.dataForm = this.createData(data);
-      $('#myModal').modal('hide');
-    }
-    modalType ? (this.modalType = modalType) : (this.modalType = '');
-  }
-
-  //Used to create the form group
-  createData(data?: any) {
-    if (data) {
-      let group = {};
-      Object.entries(data).forEach((column) => {
-        group[column[0]] = new FormControl(column[1]);
-      });
-      return new FormGroup(group);
-    } else {
-      let group = {};
-      this.tableHead.forEach((column) => {
-        group[column.name] = new FormControl();
-      });
-      return new FormGroup(group);
-    }
-  }
-
-  //Submit user changes and updates
-  submitData() {
-    this.columns = this.dataForm.value;
-    if (this.columns.id == 0 || this.columns.id == null) {
-      this.adminService
-        .addData(this.table.name, this.columns)
-        .subscribe((res) => {
-          this.getDataBody();
-        });
-    } else {
-      if (this.modalType === 'Update') {
-        this.adminService
-          .updateData(this.table.name, this.columns)
-          .subscribe((res) => {
-            this.getDataBody();
-          });
-      } else if (this.modalType === 'Delete') {
-        this.adminService
-          .deleteData(this.table.name, this.columns)
-          .subscribe((res: any) => {
-            this.getDataBody();
-          });
-      }
-    }
-    $('#myModal').modal('hide');
   }
 
   getSearchDataList(pageNumber?: number, search?: string) {
@@ -211,14 +154,11 @@ export class AdminComponent extends Blog implements OnInit {
 
   //Fetch the data list
   getDataHead() {
-    this.tableHead = [];
     this.loadData = true;
     //Fetching all the table head fields and properties
     this.adminService.getMetadata(this.table.name).subscribe(
       (res: any) => {
-        res.forEach((element) => {
-          this.tableHead.push(new ColumnMetadata(element));
-        });
+        this.columns = new Table(titleCase(this.table.name), res);
         this.dataForm = this.createData();
         this.getDataBody();
       },
@@ -245,5 +185,61 @@ export class AdminComponent extends Blog implements OnInit {
         this.loadData = false;
       }
     );
+  }
+
+  //Used to open add,update or delete modal
+  openModal(open: boolean, modalType?: string, data?: any) {
+    if (open) {
+      this.dataForm = this.createData(data);
+      $('#myModal').modal('show');
+    } else {
+      this.dataForm = this.createData(data);
+      $('#myModal').modal('hide');
+    }
+    modalType ? (this.modalType = modalType) : (this.modalType = '');
+  }
+
+  //Used to create the form group
+  createData(data?: any) {
+    if (data) {
+      let group = {};
+      Object.entries(data).forEach((column) => {
+        group[column[0]] = new FormControl(column[1]);
+      });
+      return new FormGroup(group);
+    } else {
+      let group = {};
+      Object.entries(this.columns).forEach((column: any) => {
+        group[column[0]] = new FormControl(column[1].value);
+      });
+      return new FormGroup(group);
+    }
+  }
+
+  //Submit user changes and updates
+  submitData() {
+    this.columnData = this.dataForm.value;
+    if (this.columnData.id == 0 || this.columnData.id == null) {
+      this.adminService
+        .addData(this.table.name, this.columnData)
+        .subscribe((res) => {
+          this.getDataBody();
+        });
+    } else {
+      if (this.modalType === 'Update') {
+        this.adminService
+          .updateData(this.table.name, this.columnData)
+          .subscribe((res) => {
+            this.getDataBody();
+          });
+      } else if (this.modalType === 'Delete') {
+        this.adminService
+          .deleteData(this.table.name, this.columnData)
+          .subscribe((res: any) => {
+            this.getDataBody();
+          });
+      }
+    }
+    $('#myModal').modal('hide');
   }
 }
