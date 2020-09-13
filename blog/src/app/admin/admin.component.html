@@ -1,7 +1,7 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs nav-fill">
   <li class="nav-item" *ngFor="let table of tables">
     <a
-      class="nav-link"
+      class="nav-link h5"
       [routerLink]=""
       role="button"
       [class.active]="table.name === active.table"
@@ -10,10 +10,10 @@
     >
   </li>
 </ul>
-<!-- <div *ngIf="loadData">
-  <img src="../../assets/loading.gif" alt="Fetching Data From Server" />
-</div> -->
 <div class="container">
+  <div *ngIf="loadData" class="text-center">
+    <img src="../../assets/loading.gif" alt="Fetching Data From Server" />
+  </div>
   <div class="d-flex justify-content-between">
     <h4>{{ table.name | titlecase }}</h4>
     <div class="form-inline">
@@ -27,18 +27,31 @@
           (blur)="getSearchDataList(0)"
         />
         <div class="input-group-prepend">
-          <div class="input-group-text">
+          <div class="input-group-text" (click)="getSearchDataList(0)">
             <span class="icon"><fa-icon [icon]="searchIcon"></fa-icon></span>
           </div>
-          <div class="input-group-text">
+          <div class="input-group-text" (click)="search = ''">
             <span class="icon"><fa-icon [icon]="cross"></fa-icon></span>
           </div>
         </div>
       </div>
     </div>
-    <button class="btn btn-primary" (click)="openModal(true, 'Add')">
-      <span class="icon"><fa-icon [icon]="add"></fa-icon></span>
-    </button>
+    <div>
+      <button class="btn btn-primary m-1">
+        <span class="icon"><fa-icon [icon]="print" size="lg"></fa-icon></span>
+      </button>
+      <button class="btn btn-primary m-1">
+        <span class="icon"><fa-icon [icon]="upload" size="lg"></fa-icon></span>
+      </button>
+      <button class="btn btn-primary m-1">
+        <span class="icon"
+          ><fa-icon [icon]="download" size="lg"></fa-icon
+        ></span>
+      </button>
+      <button class="btn btn-primary m-1" (click)="openModal(true, 'Add')">
+        <span class="icon"><fa-icon [icon]="add" size="lg"></fa-icon></span>
+      </button>
+    </div>
   </div>
   <table class="table table-sm table-striped text-center">
     <thead>

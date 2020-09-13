@@ -22,7 +22,7 @@ export class AdminService extends Blog {
 
   //get all column details for the tables
   getMetadata(metadata: string) {
-    let apiEndPoint = this.apiEndPoint + '/category' + '/metadata';
+    let apiEndPoint = this.apiEndPoint + '/' + metadata + '/metadata';
     this.addTokenInHeader();
     return this.http.get(apiEndPoint, { headers: this.headers });
   }

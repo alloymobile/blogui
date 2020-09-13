@@ -23,17 +23,20 @@ export class ColumnMetadata {
   dataType: string;
   readOnly: boolean;
   sortOrder: boolean;
+  sort: Sort;
   constructor(columnMetadata?: any) {
     if (columnMetadata) {
       this.name = columnMetadata.name;
       this.dataType = columnMetadata.dataType;
       this.readOnly = columnMetadata.readOnly;
-      this.sortOrder = columnMetadata.sortOrder;
+      this.sortOrder = false;
+      this.sort = new Sort();
     } else {
       this.name = '';
       this.dataType = '';
       this.readOnly = true;
       this.sortOrder = false;
+      this.sort = new Sort();
     }
   }
 }

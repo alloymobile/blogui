@@ -40,7 +40,7 @@ export class AdminComponent extends Blog implements OnInit {
   columns: any;
 
   // //spinner used to show when data loading from backend
-  // loadData: boolean;
+  loadData: boolean;
 
   //specifies the crud modals
   modalType: string;
@@ -60,7 +60,7 @@ export class AdminComponent extends Blog implements OnInit {
     this.dataForm = this.createData();
     this.tables = [];
     this.table = new TableMetadata();
-    // this.loadData = false;
+    this.loadData = false;
     this.modalType = '';
     this.search = '';
     this.active = new Active();
@@ -145,25 +145,30 @@ export class AdminComponent extends Blog implements OnInit {
 
   getSearchDataList(pageNumber?: number) {
     this.tableBody = [];
-    // this.loadData = true;
+    this.loadData = true;
     pageNumber
       ? (this.page.pageNumber = pageNumber)
       : (this.page.pageNumber = 0);
     this.adminService
       .getSearchDataList(this.table.name, this.page, this.search, this.columns)
-      .subscribe((res: any) => {
-        this.page = new Page(res);
-        res.content.forEach((element) => {
-          this.tableBody.push(new Table(titleCase(this.table.name), element));
-          // this.loadData = false;
-        });
-      });
+      .subscribe(
+        (res: any) => {
+          this.page = new Page(res);
+          res.content.forEach((element) => {
+            this.tableBody.push(new Table(titleCase(this.table.name), element));
+            this.loadData = false;
+          });
+        },
+        (error) => {
+          this.loadData = false;
+        }
+      );
   }
 
   getFilterDataList(pageNumber?: number, column?: ColumnMetadata) {
     this.active.page = pageNumber;
     this.tableBody = [];
-    // this.loadData = true;
+    this.loadData = true;
     if (column) {
       this.tableHead.forEach((head) =>
         head.name !== column.name
@@ -174,41 +179,52 @@ export class AdminComponent extends Blog implements OnInit {
     pageNumber
       ? (this.page.pageNumber = pageNumber)
       : (this.page.pageNumber = 0);
-    this.adminService
-      .getDataList(this.table.name, this.page, column)
-      .subscribe((res: any) => {
+    this.adminService.getDataList(this.table.name, this.page, column).subscribe(
+      (res: any) => {
         this.page = new Page(res);
         res.content.forEach((element) => {
           this.tableBody.push(new Table(titleCase(this.table.name), element));
-          // this.loadData = false;
+          this.loadData = false;
         });
-      });
+      },
+      (error) => {
+        this.loadData = false;
+      }
+    );
   }
 
   //Fetch the data list
   getDataHead() {
     this.tableHead = [];
-    // this.loadData = true;
+    this.loadData = true;
     //Fetching all the table head fields and properties
-    this.adminService.getMetadata(this.table.name).subscribe((res: any) => {
-      res.forEach((element) => {
-        this.tableHead.push(new ColumnMetadata(element));
-      });
-      this.dataForm = this.createData();
-      this.getDataBody();
-    });
+    this.adminService.getMetadata(this.table.name).subscribe(
+      (res: any) => {
+        res.forEach((element) => {
+          this.tableHead.push(new ColumnMetadata(element));
+        });
+        this.dataForm = this.createData();
+        this.getDataBody();
+      },
+      (error) => {
+        this.loadData = false;
+      }
+    );
   }
 
   getDataBody() {
     this.tableBody = [];
-    this.adminService
-      .getDataList(this.table.name, this.page)
-      .subscribe((res: any) => {
+    this.adminService.getDataList(this.table.name, this.page).subscribe(
+      (res: any) => {
         this.page = new Page(res);
         res.content.forEach((element) => {
           this.tableBody.push(new Table(titleCase(this.table.name), element));
-          // this.loadData = false;
+          this.loadData = false;
         });
-      });
+      },
+      (error) => {
+        this.loadData = false;
+      }
+    );
   }
 }

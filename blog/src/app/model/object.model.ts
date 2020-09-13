@@ -12,6 +12,20 @@ export class Category {
   }
 }
 
+export class Post {
+  id: number;
+  title: string;
+  constructor(post?: any) {
+    if (post) {
+      this.id = post.id;
+      this.title = post.title;
+    } else {
+      this.id = 0;
+      this.title = '';
+    }
+  }
+}
+
 export class Tag {
   id: number;
   name: string;
@@ -27,6 +41,7 @@ export class Tag {
 }
 export const TableName: any = {
   Category,
+  Post,
   Tag,
 };
 

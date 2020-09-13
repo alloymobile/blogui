@@ -9,6 +9,9 @@ import {
   faPlusSquare,
   faEdit,
   faTrashAlt,
+  faPrint,
+  faFileUpload,
+  faFileDownload,
 } from '@fortawesome/free-solid-svg-icons';
 
 export class Blog {
@@ -28,6 +31,9 @@ export class Blog {
   add = faPlusSquare;
   update = faEdit;
   delete = faTrashAlt;
+  print = faPrint;
+  upload = faFileUpload;
+  download = faFileDownload;
 
   constructor() {
     this.page = new Page();
