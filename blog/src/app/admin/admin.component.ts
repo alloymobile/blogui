@@ -35,6 +35,8 @@ export class AdminComponent extends Blog implements OnInit {
   //Holds the list data fetch from server
   tableBody: any[];
   //Contains all metadata for the table columns
+  columnName: any;
+  //Contains all metadata for the table columns
   tableHead: ColumnMetadata[];
   //holds all the columns for a specific table used in crud
   columns: any;
@@ -83,6 +85,8 @@ export class AdminComponent extends Blog implements OnInit {
   showList(table: TableMetadata) {
     this.table = table;
     this.active.table = table.name;
+    this.active.page = 0;
+    this.page = new Page();
     this.columns = new Table(titleCase(table.name));
     this.getDataHead();
   }
@@ -143,9 +147,12 @@ export class AdminComponent extends Blog implements OnInit {
     $('#myModal').modal('hide');
   }
 
-  getSearchDataList(pageNumber?: number) {
+  getSearchDataList(pageNumber?: number, search?: string) {
     this.tableBody = [];
     this.loadData = true;
+    if (search === '') {
+      this.search = search;
+    }
     pageNumber
       ? (this.page.pageNumber = pageNumber)
       : (this.page.pageNumber = 0);
@@ -156,8 +163,11 @@ export class AdminComponent extends Blog implements OnInit {
           this.page = new Page(res);
           res.content.forEach((element) => {
             this.tableBody.push(new Table(titleCase(this.table.name), element));
-            this.loadData = false;
           });
+          this.loadData = false;
+          if (this.tableBody && this.tableBody.length > 0) {
+            this.columnName = this.tableBody[0];
+          }
         },
         (error) => {
           this.loadData = false;
@@ -165,32 +175,38 @@ export class AdminComponent extends Blog implements OnInit {
       );
   }
 
-  getFilterDataList(pageNumber?: number, column?: ColumnMetadata) {
+  getFilterDataList(pageNumber?: number, column?: any) {
     this.active.page = pageNumber;
     this.tableBody = [];
     this.loadData = true;
     if (column) {
-      this.tableHead.forEach((head) =>
-        head.name !== column.name
-          ? (head.sortOrder = false)
-          : (head.sortOrder = !head.sortOrder)
-      );
+      if (this.sortColumn.name === column.key) {
+        this.sortColumn.sort = !this.sortColumn.sort;
+      } else {
+        this.sortColumn.name = column.key;
+        this.sortColumn.sort = false;
+      }
     }
     pageNumber
       ? (this.page.pageNumber = pageNumber)
       : (this.page.pageNumber = 0);
-    this.adminService.getDataList(this.table.name, this.page, column).subscribe(
-      (res: any) => {
-        this.page = new Page(res);
-        res.content.forEach((element) => {
-          this.tableBody.push(new Table(titleCase(this.table.name), element));
+    this.adminService
+      .getDataList(this.table.name, this.page, this.sortColumn)
+      .subscribe(
+        (res: any) => {
+          this.page = new Page(res);
+          res.content.forEach((element) => {
+            this.tableBody.push(new Table(titleCase(this.table.name), element));
+          });
           this.loadData = false;
-        });
-      },
-      (error) => {
-        this.loadData = false;
-      }
-    );
+          if (this.tableBody && this.tableBody.length > 0) {
+            this.columnName = this.tableBody[0];
+          }
+        },
+        (error) => {
+          this.loadData = false;
+        }
+      );
   }
 
   //Fetch the data list
@@ -219,8 +235,11 @@ export class AdminComponent extends Blog implements OnInit {
         this.page = new Page(res);
         res.content.forEach((element) => {
           this.tableBody.push(new Table(titleCase(this.table.name), element));
-          this.loadData = false;
         });
+        this.loadData = false;
+        if (this.tableBody && this.tableBody.length > 0) {
+          this.columnName = this.tableBody[0];
+        }
       },
       (error) => {
         this.loadData = false;

@@ -1,4 +1,4 @@
-import { Page, ColumnMetadata } from './model/metadata.model';
+import { Page, ColumnMetadata, SortColumn } from './model/metadata.model';
 import { HttpHeaders } from '@angular/common/http';
 import {
   faSearch,
@@ -26,6 +26,7 @@ export class Blog {
   toggle: boolean = false;
   //Page data
   page: Page;
+  sortColumn: SortColumn;
 
   //Modal Icons
   add = faPlusSquare;
@@ -37,6 +38,7 @@ export class Blog {
 
   constructor() {
     this.page = new Page();
+    this.sortColumn = new SortColumn();
   }
 
   addTokenInHeader() {
@@ -49,27 +51,27 @@ export class Blog {
     }
   }
 
-  getParamString(page?: Page, column?: ColumnMetadata): string {
+  getParamString(page?: Page, sortColumn?: SortColumn): string {
     let param: string = '';
-    if (page && column) {
+    if (page && sortColumn) {
       param =
         '?page=' +
         page.pageNumber +
         '&size=' +
         page.pageSize +
         '&sort=' +
-        this.getSort(column);
+        this.getSort(sortColumn);
     } else if (page) {
       param = '?page=' + page.pageNumber + '&size=' + page.pageSize;
     }
     return param;
   }
 
-  getSort(column: ColumnMetadata): string {
-    if (column.sortOrder) {
-      return column.name + ',desc';
+  getSort(sortColumn: SortColumn): string {
+    if (sortColumn.sort) {
+      return sortColumn.name + ',desc';
     } else {
-      return column.name + ',asc';
+      return sortColumn.name + ',asc';
     }
   }
   getSearchParamString(

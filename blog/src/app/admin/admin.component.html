@@ -30,7 +30,7 @@
           <div class="input-group-text" (click)="getSearchDataList(0)">
             <span class="icon"><fa-icon [icon]="searchIcon"></fa-icon></span>
           </div>
-          <div class="input-group-text" (click)="search = ''">
+          <div class="input-group-text" (click)="getSearchDataList(0, '')">
             <span class="icon"><fa-icon [icon]="cross"></fa-icon></span>
           </div>
         </div>
@@ -58,14 +58,14 @@
       <tr>
         <th
           scope="col"
-          *ngFor="let head of tableHead"
-          (click)="getFilterDataList(0, head)"
+          *ngFor="let h of columnName | keyvalue"
+          (click)="getFilterDataList(0, h)"
         >
-          {{ head.name }}
-          <span>
+          {{ h.key }}
+          <span *ngIf="h.key === sortColumn.name">
             <fa-icon
               [icon]="upToggle"
-              *ngIf="!head.sortOrder; else upArrow"
+              *ngIf="sortColumn.sort; else upArrow"
             ></fa-icon>
             <ng-template #upArrow>
               <fa-icon [icon]="downToggle"></fa-icon>
@@ -101,7 +101,12 @@
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-end">
       <li class="page-item" [ngClass]="{ disabled: page.first }">
-        <a class="page-link" [routerLink]="">Previous</a>
+        <a
+          class="page-link"
+          [routerLink]=""
+          (click)="getFilterDataList(active.page - 1)"
+          >Previous</a
+        >
       </li>
       <li
         class="page-item"
@@ -113,7 +118,12 @@
         }}</a>
       </li>
       <li class="page-item" [ngClass]="{ disabled: page.last }">
-        <a class="page-link" [routerLink]="">Next</a>
+        <a
+          class="page-link"
+          [routerLink]=""
+          (click)="getFilterDataList(active.page + 1)"
+          >Next</a
+        >
       </li>
     </ul>
   </nav>

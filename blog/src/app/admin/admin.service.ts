@@ -1,4 +1,9 @@
-import { Page, TableMetadata, ColumnMetadata } from './../model/metadata.model';
+import {
+  Page,
+  TableMetadata,
+  ColumnMetadata,
+  SortColumn,
+} from './../model/metadata.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Blog } from '../blog';
@@ -43,9 +48,9 @@ export class AdminService extends Blog {
   }
 
   //Get all the data for the table in pagignated way and sorted
-  getDataList(metadata: string, page?: Page, column?: ColumnMetadata) {
+  getDataList(metadata: string, page?: Page, sortColumn?: SortColumn) {
     let apiEndPoint = this.apiEndPoint + '/' + metadata;
-    let params = this.getParamString(page, column);
+    let params = this.getParamString(page, sortColumn);
     if (params) {
       apiEndPoint = apiEndPoint + params;
     }

@@ -12,9 +12,14 @@ export class TableMetadata {
 export class Active {
   table: string;
   page: number;
-  constructor() {
-    this.table = '';
-    this.page = 0;
+  constructor(active?: any) {
+    if (active) {
+      this.table = active.table;
+      this.page = active.page;
+    } else {
+      this.table = '';
+      this.page = 0;
+    }
   }
 }
 
@@ -37,6 +42,20 @@ export class ColumnMetadata {
       this.readOnly = true;
       this.sortOrder = false;
       this.sort = new Sort();
+    }
+  }
+}
+
+export class SortColumn {
+  name: string;
+  sort: boolean;
+  constructor(sortColumn?: any) {
+    if (sortColumn) {
+      this.name = sortColumn.name;
+      this.sort = sortColumn.sort;
+    } else {
+      this.name = '';
+      this.sort = false;
     }
   }
 }
