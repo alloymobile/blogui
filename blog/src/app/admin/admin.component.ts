@@ -86,7 +86,7 @@ export class AdminComponent extends Blog implements OnInit {
     this.active.table = table.name;
     this.active.page = 0;
     this.page = new Page();
-    this.columnData = new Table(titleCase(this.table.name));
+    this.columnData = new Table(this.capitalize(this.table.name));
     this.getDataHead();
   }
 
@@ -105,7 +105,7 @@ export class AdminComponent extends Blog implements OnInit {
         (res: any) => {
           this.page = new Page(res);
           res.content.forEach((element) => {
-            this.tableBody.push(new Table(titleCase(this.table.name), element));
+            this.tableBody.push(new Table(this.capitalize(this.table.name), element));
           });
           this.loadData = false;
           if (this.tableBody && this.tableBody.length > 0) {
@@ -139,7 +139,7 @@ export class AdminComponent extends Blog implements OnInit {
         (res: any) => {
           this.page = new Page(res);
           res.content.forEach((element) => {
-            this.tableBody.push(new Table(titleCase(this.table.name), element));
+            this.tableBody.push(new Table(this.capitalize(this.table.name), element));
           });
           this.loadData = false;
           if (this.tableBody && this.tableBody.length > 0) {
@@ -158,7 +158,7 @@ export class AdminComponent extends Blog implements OnInit {
     //Fetching all the table head fields and properties
     this.adminService.getMetadata(this.table.name).subscribe(
       (res: any) => {
-        this.columns = new Table(titleCase(this.table.name), res);
+        this.columns = new Table(this.capitalize(this.table.name), res);
         this.dataForm = this.createData();
         this.getDataBody();
       },
@@ -174,7 +174,7 @@ export class AdminComponent extends Blog implements OnInit {
       (res: any) => {
         this.page = new Page(res);
         res.content.forEach((element) => {
-          this.tableBody.push(new Table(titleCase(this.table.name), element));
+          this.tableBody.push(new Table(this.capitalize(this.table.name), element));
         });
         this.loadData = false;
         if (this.tableBody && this.tableBody.length > 0) {
