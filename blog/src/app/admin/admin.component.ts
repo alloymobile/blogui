@@ -105,7 +105,9 @@ export class AdminComponent extends Blog implements OnInit {
         (res: any) => {
           this.page = new Page(res);
           res.content.forEach((element) => {
-            this.tableBody.push(new Table(this.capitalize(this.table.name), element));
+            this.tableBody.push(
+              new Table(this.capitalize(this.table.name), element)
+            );
           });
           this.loadData = false;
           if (this.tableBody && this.tableBody.length > 0) {
@@ -139,7 +141,9 @@ export class AdminComponent extends Blog implements OnInit {
         (res: any) => {
           this.page = new Page(res);
           res.content.forEach((element) => {
-            this.tableBody.push(new Table(this.capitalize(this.table.name), element));
+            this.tableBody.push(
+              new Table(this.capitalize(this.table.name), element)
+            );
           });
           this.loadData = false;
           if (this.tableBody && this.tableBody.length > 0) {
@@ -174,7 +178,9 @@ export class AdminComponent extends Blog implements OnInit {
       (res: any) => {
         this.page = new Page(res);
         res.content.forEach((element) => {
-          this.tableBody.push(new Table(this.capitalize(this.table.name), element));
+          this.tableBody.push(
+            new Table(this.capitalize(this.table.name), element)
+          );
         });
         this.loadData = false;
         if (this.tableBody && this.tableBody.length > 0) {

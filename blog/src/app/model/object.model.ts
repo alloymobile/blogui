@@ -41,6 +41,20 @@ export class CommentUser {
   }
 }
 
+export class CommentUserMetadata {
+  id: NumberMetaData;
+  name: TextMetadata;
+  constructor(metadata?: any) {
+    if (metadata) {
+      this.id = new NumberMetaData(metadata.id);
+      this.name = new TextMetadata(metadata.name);
+    } else {
+      this.id = new NumberMetaData();
+      this.name = new TextMetadata();
+    }
+  }
+}
+
 export class Post {
   id: number;
   title: string;
@@ -90,6 +104,46 @@ export class PostMetadata {
   }
 }
 
+export class PostUser {
+  id: number;
+  name: string;
+  email: string;
+  password?: string;
+  constructor(user?: any) {
+    if (user) {
+      this.id = user.id;
+      this.name = user.name;
+      this.email = user.email;
+      user.password ? (this.password = user.password) : (this.password = '');
+    } else {
+      this.id = 0;
+      this.name = '';
+      this.email = '';
+      this.password = '';
+    }
+  }
+}
+
+export class PostUserMetadata {
+  id: NumberMetaData;
+  name: TextMetadata;
+  email: TextMetadata;
+  password: TextMetadata;
+  constructor(metadata?: any) {
+    if (metadata) {
+      this.id = new NumberMetaData(metadata.id);
+      this.name = new TextMetadata(metadata.name);
+      this.email = new TextMetadata(metadata.email);
+      this.password = new TextMetadata(metadata.password);
+    } else {
+      this.id = new NumberMetaData();
+      this.name = new TextMetadata();
+      this.email = new TextMetadata();
+      this.password = new TextMetadata();
+    }
+  }
+}
+
 export class Tag {
   id: number;
   name: string;
@@ -105,9 +159,8 @@ export class Tag {
 }
 export const TableName: any = {
   Category,
-  CategoryMetadata,
   Post,
-  PostMetadata,
+  PostUser,
   Tag,
   CommentUser,
 };

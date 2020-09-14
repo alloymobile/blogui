@@ -77,8 +77,11 @@
     </thead>
     <tbody>
       <tr *ngFor="let body of tableBody; index as j">
-        <td *ngFor="let key of body | keyvalue">
-          {{ key.value }}
+        <td *ngFor="let col of body | keyvalue">
+          <span *ngIf="col.key != 'image'; else image">{{ col.value }}</span>
+          <ng-template #image>
+            <img [src]="col.value" width="40 px" height="40 px" />
+          </ng-template>
         </td>
         <td>
           <button
@@ -168,6 +171,7 @@
               [type]="c.value.type"
               class="form-control"
               [formControlName]="c.key"
+              [readonly]="c.value.readOnly"
             />
           </div>
         </div>

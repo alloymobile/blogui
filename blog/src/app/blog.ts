@@ -95,7 +95,21 @@ export class Blog {
 
   getSearchString(filter: any, columns: ColumnMetadata[]): string {
     let filterString = '';
-    Object.keys(columns).forEach((key) => {
+    console.log(columns);
+    Object.keys(columns).forEach((key: any) => {
+      // console.log(value);
+      // switch (value.type) {
+      //   case 'number':
+      //       if (!isNaN(filter)) {
+      //         filterString = filterString + '&' + key + '=' + filter;
+      //       }
+      //     break;
+      //   case 'text':
+      //     if()
+      //     break;
+      //   case 'date':
+      //     break;
+      // }
       if (key.includes('id')) {
         if (!isNaN(filter)) {
           filterString = filterString + '&' + key + '=' + filter;
@@ -109,7 +123,7 @@ export class Blog {
     return filterString;
   }
 
-capitalize(s){
+  capitalize(s) {
     if (typeof s !== 'string') return '';
     return s.charAt(0).toUpperCase() + s.slice(1);
   }
