@@ -1,3 +1,4 @@
+import { TableDetailMetadata } from './../model/datatype.model';
 import { Table } from './../model/object.model';
 import { Blog } from './../blog';
 import {
@@ -71,9 +72,9 @@ export class AdminComponent extends Blog implements OnInit {
     this.getBlog();
   }
 
-  //Get all the table names for the blog
+  //Get all the table names for the blog and definition
   getBlog() {
-    this.adminService.getBlog(this.metadata).subscribe((res: any) => {
+    this.adminService.getBlog(this.tableName).subscribe((res: any) => {
       res.forEach((element) => {
         this.tables.push(element);
       });
@@ -87,7 +88,8 @@ export class AdminComponent extends Blog implements OnInit {
     this.active.page = 0;
     this.page = new Page();
     this.columnData = new Table(this.capitalize(this.table.name));
-    this.getDataHead();
+    this.getData();
+    this.getColumnMetadata();
   }
 
   getSearchDataList(pageNumber?: number, search?: string) {
@@ -157,14 +159,16 @@ export class AdminComponent extends Blog implements OnInit {
   }
 
   //Fetch the data list
-  getDataHead() {
+  getColumnMetadata() {
     this.loadData = true;
-    //Fetching all the table head fields and properties
+    //Fetching all the table fields and properties
     this.adminService.getMetadata(this.table.name).subscribe(
       (res: any) => {
-        this.columns = new Table(this.capitalize(this.table.name), res);
+        this.columns = new TableDetailMetadata(
+          this.capitalize(this.table.name + 'Metadata'),
+          res
+        );
         this.dataForm = this.createData();
-        this.getDataBody();
       },
       (error) => {
         this.loadData = false;
@@ -172,7 +176,7 @@ export class AdminComponent extends Blog implements OnInit {
     );
   }
 
-  getDataBody() {
+  getData() {
     this.tableBody = [];
     this.adminService.getDataList(this.table.name, this.page).subscribe(
       (res: any) => {
@@ -229,20 +233,20 @@ export class AdminComponent extends Blog implements OnInit {
       this.adminService
         .addData(this.table.name, this.columnData)
         .subscribe((res) => {
-          this.getDataBody();
+          this.getData();
         });
     } else {
       if (this.modalType === 'Update') {
         this.adminService
           .updateData(this.table.name, this.columnData)
           .subscribe((res) => {
-            this.getDataBody();
+            this.getData();
           });
       } else if (this.modalType === 'Delete') {
         this.adminService
           .deleteData(this.table.name, this.columnData)
           .subscribe((res: any) => {
-            this.getDataBody();
+            this.getData();
           });
       }
     }

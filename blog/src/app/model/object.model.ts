@@ -1,4 +1,3 @@
-import { TextMetadata, NumberMetaData } from './datatype.model';
 export class Category {
   id: number;
   name: string;
@@ -9,20 +8,6 @@ export class Category {
     } else {
       this.id = 0;
       this.name = '';
-    }
-  }
-}
-
-export class CategoryMetadata {
-  id: NumberMetaData;
-  name: TextMetadata;
-  constructor(metadata?: any) {
-    if (metadata) {
-      this.id = new NumberMetaData(metadata.id);
-      this.name = new TextMetadata(metadata.name);
-    } else {
-      this.id = new NumberMetaData();
-      this.name = new TextMetadata();
     }
   }
 }
@@ -41,20 +26,6 @@ export class CommentUser {
   }
 }
 
-export class CommentUserMetadata {
-  id: NumberMetaData;
-  name: TextMetadata;
-  constructor(metadata?: any) {
-    if (metadata) {
-      this.id = new NumberMetaData(metadata.id);
-      this.name = new TextMetadata(metadata.name);
-    } else {
-      this.id = new NumberMetaData();
-      this.name = new TextMetadata();
-    }
-  }
-}
-
 export class Post {
   id: number;
   title: string;
@@ -63,8 +34,8 @@ export class Post {
   image: string;
   date: string;
   likes: string;
-  categoryId: number;
-  postUserId: number;
+  category: Category;
+  postUser: PostUser;
   constructor(post?: any) {
     if (post) {
       this.id = post.id;
@@ -74,8 +45,8 @@ export class Post {
       this.image = post.image;
       this.date = post.date;
       this.likes = post.likes;
-      this.categoryId = post.categoryId;
-      this.postUserId = post.postUserId;
+      this.category = new Category(post.category);
+      this.postUser = new PostUser(post.postUser);
     } else {
       this.id = 0;
       this.title = '';
@@ -84,22 +55,8 @@ export class Post {
       this.image = '';
       this.date = '';
       this.likes = '';
-      this.categoryId = 0;
-      this.postUserId = 0;
-    }
-  }
-}
-
-export class PostMetadata {
-  id: NumberMetaData;
-  title: TextMetadata;
-  constructor(metadata?: any) {
-    if (metadata) {
-      this.id = new NumberMetaData(metadata.id);
-      this.title = new TextMetadata(metadata.title);
-    } else {
-      this.id = new NumberMetaData();
-      this.title = new TextMetadata();
+      this.category = new Category();
+      this.postUser = new PostUser();
     }
   }
 }
@@ -124,26 +81,6 @@ export class PostUser {
   }
 }
 
-export class PostUserMetadata {
-  id: NumberMetaData;
-  name: TextMetadata;
-  email: TextMetadata;
-  password: TextMetadata;
-  constructor(metadata?: any) {
-    if (metadata) {
-      this.id = new NumberMetaData(metadata.id);
-      this.name = new TextMetadata(metadata.name);
-      this.email = new TextMetadata(metadata.email);
-      this.password = new TextMetadata(metadata.password);
-    } else {
-      this.id = new NumberMetaData();
-      this.name = new TextMetadata();
-      this.email = new TextMetadata();
-      this.password = new TextMetadata();
-    }
-  }
-}
-
 export class Tag {
   id: number;
   name: string;
@@ -157,12 +94,52 @@ export class Tag {
     }
   }
 }
+
+export class Comment {
+  id: number;
+  details: string;
+  post: Post;
+  commentUser: CommentUser;
+  constructor(comment?: any) {
+    if (comment) {
+      this.id = comment.id;
+      this.details = comment.details;
+      this.post = new Post(comment.post);
+      this.commentUser = new CommentUser(comment.commentUser);
+    } else {
+      this.id = 0;
+      this.details = '';
+      this.post = new Post();
+      this.commentUser = new CommentUser();
+    }
+  }
+}
+
+export class PostTag {
+  id: number;
+  post: Post;
+  tag: Tag;
+  constructor(postTag?: any) {
+    if (postTag) {
+      this.id = postTag.id;
+      this.post = new Post(postTag.post);
+      this.tag = new Tag(postTag.tag);
+    } else {
+      this.id = 0;
+      this.post = new Post();
+      this.tag = new Tag();
+    }
+  }
+}
+
 export const TableName: any = {
   Category,
   Post,
   PostUser,
   Tag,
+  Comment,
   CommentUser,
+  PostTag,
 };
 
 export class Table {
