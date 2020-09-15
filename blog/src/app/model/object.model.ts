@@ -117,17 +117,17 @@ export class Comment {
 
 export class PostTag {
   id: number;
-  post: Post;
-  tag: Tag;
+  postId: Post;
+  tagId: Tag;
   constructor(postTag?: any) {
     if (postTag) {
       this.id = postTag.id;
-      this.post = new Post(postTag.post);
-      this.tag = new Tag(postTag.tag);
+      this.postId = new Post(postTag.postId);
+      this.tagId = new Tag(postTag.tagId);
     } else {
       this.id = 0;
-      this.post = new Post();
-      this.tag = new Tag();
+      this.postId = new Post();
+      this.tagId = new Tag();
     }
   }
 }

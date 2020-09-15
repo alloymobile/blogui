@@ -69,7 +69,6 @@ export class AdminComponent extends Blog implements OnInit {
   }
 
   ngOnInit(): void {
-    $('[data-toggle="tooltip"]').tooltip();
     this.getBlog();
   }
 
@@ -170,6 +169,7 @@ export class AdminComponent extends Blog implements OnInit {
           res
         );
         this.dataForm = this.createData();
+        console.log(this.columns);
       },
       (error) => {
         this.loadData = false;
@@ -214,8 +214,12 @@ export class AdminComponent extends Blog implements OnInit {
   createData(data?: any) {
     if (data) {
       let group = {};
-      Object.entries(data).forEach((column) => {
-        group[column[0]] = new FormControl(column[1]);
+      Object.entries(data).forEach((column: any) => {
+        if(this.isObject(column[1])){
+          group[column[0]] = new FormControl(column[1].id);
+        }else{
+          group[column[0]] = new FormControl(column[1]);
+        }
       });
       return new FormGroup(group);
     } else {
