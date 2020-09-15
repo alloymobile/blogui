@@ -252,4 +252,8 @@ export class AdminComponent extends Blog implements OnInit {
     }
     $('#myModal').modal('hide');
   }
+
+  isObject(val): boolean {
+    return typeof val === 'object';
+  }
 }
