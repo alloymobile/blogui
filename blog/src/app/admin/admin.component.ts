@@ -69,6 +69,7 @@ export class AdminComponent extends Blog implements OnInit {
   }
 
   ngOnInit(): void {
+    $('[data-toggle="tooltip"]').tooltip();
     this.getBlog();
   }
 
@@ -254,6 +255,10 @@ export class AdminComponent extends Blog implements OnInit {
   }
 
   isObject(val): boolean {
-    return typeof val === 'object';
+    return val instanceof Object;
+  }
+
+  toString(val): string{
+    return JSON.stringify(val);
   }
 }

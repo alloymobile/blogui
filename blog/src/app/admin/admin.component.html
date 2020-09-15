@@ -78,16 +78,19 @@
     <tbody>
       <tr *ngFor="let body of tableBody; index as j">
         <td *ngFor="let col of body | keyvalue">
-          <!-- <span *ngIf="isObject(col); then thenBlock; else elseBlock"></span>
+          <ng-container *ngIf="isObject(col.value); then thenBlock; else elseBlock"></ng-container>
           <ng-template #thenBlock>
-            <span>{{ col.value.id }}</span>
+            <span [tooltip]="toString(col.value)">{{ col.value.id }}</span>
           </ng-template>
-          <ng-template #elseBlock> -->
-          <span *ngIf="col.key != 'image'; else image">{{ col.value }}</span>
-          <ng-template #image>
-            <img [src]="col.value" width="40 px" height="40 px" />
+          <ng-template #elseBlock>
+            <ng-container *ngIf="col.key != 'image'; then value; else image"></ng-container>
+            <ng-template #value>
+                <span>{{ col.value }}</span>
+            </ng-template>
+            <ng-template #image>
+              <img [src]="col.value" width="40 px" height="40 px" />
+            </ng-template>
           </ng-template>
-          <!-- </ng-template> -->
         </td>
         <td>
           <button
