@@ -34,8 +34,8 @@ export class Post {
   image: string;
   date: string;
   likes: string;
-  category: Category;
-  postUser: PostUser;
+  categoryId: Category;
+  postUserId: PostUser;
   constructor(post?: any) {
     if (post) {
       this.id = post.id;
@@ -45,8 +45,8 @@ export class Post {
       this.image = post.image;
       this.date = post.date;
       this.likes = post.likes;
-      this.category = new Category(post.category);
-      this.postUser = new PostUser(post.postUser);
+      this.categoryId = new Category(post.categoryId);
+      this.postUserId = new PostUser(post.postUserId);
     } else {
       this.id = 0;
       this.title = '';
@@ -55,8 +55,8 @@ export class Post {
       this.image = '';
       this.date = '';
       this.likes = '';
-      this.category = new Category();
-      this.postUser = new PostUser();
+      this.categoryId = new Category();
+      this.postUserId = new PostUser();
     }
   }
 }
@@ -98,19 +98,19 @@ export class Tag {
 export class Comment {
   id: number;
   details: string;
-  post: Post;
-  commentUser: CommentUser;
+  postId: Post;
+  commentUserId: CommentUser;
   constructor(comment?: any) {
     if (comment) {
       this.id = comment.id;
       this.details = comment.details;
-      this.post = new Post(comment.post);
-      this.commentUser = new CommentUser(comment.commentUser);
+      this.postId = new Post(comment.postId);
+      this.commentUserId = new CommentUser(comment.commentUserId);
     } else {
       this.id = 0;
       this.details = '';
-      this.post = new Post();
-      this.commentUser = new CommentUser();
+      this.postId = new Post();
+      this.commentUserId = new CommentUser();
     }
   }
 }

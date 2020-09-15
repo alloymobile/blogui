@@ -169,7 +169,6 @@ export class AdminComponent extends Blog implements OnInit {
           res
         );
         this.dataForm = this.createData();
-        console.log(this.columns);
       },
       (error) => {
         this.loadData = false;

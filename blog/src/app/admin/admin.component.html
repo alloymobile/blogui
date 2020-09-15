@@ -196,7 +196,8 @@
                     />
                 </div>
                 <div *ngSwitchCase="'select'">
-                  <select class="form-control" [formControlName]="c.key">
+                  <label for="{{ c.value.id }}">{{ c.value.name }}</label>
+                  <select [id]="c.value.id" class="form-control" [formControlName]="c.key">
                     <option *ngFor="let opt of c.value.options">
                       {{opt.id}}
                     </option>
