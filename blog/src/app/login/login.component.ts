@@ -22,16 +22,12 @@ export class LoginComponent implements OnInit {
     this.postUserService.login(this.data.loginUser).subscribe(
       (res) => {
         if (res) {
-          localStorage.setItem('user', JSON.stringify(res));
+          sessionStorage.setItem('user', JSON.stringify(res));
           this.data.user = res;
           this.router.navigate(['/admin']);
-        }else{
-          this.router.navigate(['/']);
         }
       },
-      (error) => {
-        this.router.navigate(['/']);
-      }
+      (error) => {}
     );
   }
 }

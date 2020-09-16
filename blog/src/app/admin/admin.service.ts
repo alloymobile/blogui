@@ -22,23 +22,23 @@ export class AdminService extends Blog {
   //Get all the table names
   getBlog(metadata: string) {
     let apiEndPoint = this.apiEndPoint + metadata;
-    // if(this.checkJwtToken()){
+    // if (this.checkJwtToken()) {
     //   this.router.navigate(['/login']);
-    // }else{
-      this.addTokenInHeader();
-      return this.http.get(apiEndPoint, { headers: this.headers });
+    // } else {
+    this.addTokenInHeader();
+    return this.http.get(apiEndPoint, { headers: this.headers });
     // }
   }
 
   //get all column details for the tables
   getMetadata(metadata: string) {
     let apiEndPoint = this.apiEndPoint + '/' + metadata + '/metadata';
-    // if(this.checkJwtToken()){
-    //   this.router.navigate(['/login']);
-    // }else{
+    if (this.checkJwtToken()) {
+      this.router.navigate(['/login']);
+    } else {
       this.addTokenInHeader();
       return this.http.get(apiEndPoint, { headers: this.headers });
-    // }
+    }
   }
 
   //Get all the data for the table in pagignated way and searched
@@ -56,8 +56,8 @@ export class AdminService extends Blog {
     // if(this.checkJwtToken()){
     //   this.router.navigate(['/login']);
     // }else{
-      this.addTokenInHeader();
-      return this.http.get(apiEndPoint, { headers: this.headers });
+    this.addTokenInHeader();
+    return this.http.get(apiEndPoint, { headers: this.headers });
     // }
   }
 
@@ -71,8 +71,8 @@ export class AdminService extends Blog {
     // if(this.checkJwtToken()){
     //   this.router.navigate(['/login']);
     // }else{
-      this.addTokenInHeader();
-      return this.http.get(apiEndPoint, { headers: this.headers });
+    this.addTokenInHeader();
+    return this.http.get(apiEndPoint, { headers: this.headers });
     // }
   }
 
@@ -82,8 +82,8 @@ export class AdminService extends Blog {
     // if(this.checkJwtToken()){
     //   this.router.navigate(['/login']);
     // }else{
-      this.addTokenInHeader();
-      return this.http.get(apiEndPoint, { headers: this.headers });
+    this.addTokenInHeader();
+    return this.http.get(apiEndPoint, { headers: this.headers });
     // }
   }
 
@@ -93,8 +93,8 @@ export class AdminService extends Blog {
     // if(this.checkJwtToken()){
     //   this.router.navigate(['/login']);
     // }else{
-      this.addTokenInHeader();
-      return this.http.post(apiEndPoint, data, { headers: this.headers });
+    this.addTokenInHeader();
+    return this.http.post(apiEndPoint, data, { headers: this.headers });
     // }
   }
 
@@ -104,8 +104,8 @@ export class AdminService extends Blog {
     // if(this.checkJwtToken()){
     //   this.router.navigate(['/login']);
     // }else{
-      this.addTokenInHeader();
-      return this.http.put(apiEndPoint, data, { headers: this.headers });
+    this.addTokenInHeader();
+    return this.http.put(apiEndPoint, data, { headers: this.headers });
     // }
   }
 
@@ -115,8 +115,8 @@ export class AdminService extends Blog {
     // if(this.checkJwtToken()){
     //   this.router.navigate(['/login']);
     // }else{
-      this.addTokenInHeader();
-      return this.http.delete(apiEndPoint, { headers: this.headers });
+    this.addTokenInHeader();
+    return this.http.delete(apiEndPoint, { headers: this.headers });
     // }
   }
 }
