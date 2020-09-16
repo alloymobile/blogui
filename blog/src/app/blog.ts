@@ -13,6 +13,8 @@ import {
   faFileUpload,
   faFileDownload,
 } from '@fortawesome/free-solid-svg-icons';
+import * as jwt_decode from 'jwt-decode';
+import { User } from './model/user.model';
 
 export class Blog {
   headers: HttpHeaders;
@@ -45,10 +47,10 @@ export class Blog {
   addTokenInHeader() {
     if (localStorage.getItem('user')) {
       let user = JSON.parse(localStorage.getItem('user'));
-      this.headers = new HttpHeaders().set(
-        'Authorization',
-        'Bearer ' + user.token
-      );
+        this.headers = new HttpHeaders().set(
+          'Authorization',
+          'Bearer ' + user.token
+        );
     }
   }
 
@@ -124,8 +126,42 @@ export class Blog {
     return filterString;
   }
 
+  checkJwtToken(): boolean{
+    if(sessionStorage.getItem('user')){
+      let user: User = JSON.parse(sessionStorage.getItem('user'))
+      if(user.token && user.token.length > 0){
+        let decodeToken = jwt_decode(user.token);
+        let decodeTokenDate = new Date(decodeToken.exp * 1000);
+        let tokenExpiry = new Date(decodeTokenDate.setMinutes(decodeTokenDate.getMinutes() - 2));
+        let currentDate = new Date();
+        if(currentDate > tokenExpiry){
+          console.log("Token is expired")
+          return true;
+        }else{
+          console.log("valid token");
+          return false;
+        }
+      }else{
+        console.log("Token is not present")
+        return true;
+      }
+    }else{
+      console.log("Token is not present")
+      return true;
+    }
+  }
+
+
   capitalize(s) {
     if (typeof s !== 'string') return '';
     return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  isObject(val): boolean {
+    return val instanceof Object;
+  }
+
+  toString(val): string{
+    return JSON.stringify(val);
   }
 }

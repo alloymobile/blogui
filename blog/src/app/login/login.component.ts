@@ -25,9 +25,13 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('user', JSON.stringify(res));
           this.data.user = res;
           this.router.navigate(['/admin']);
+        }else{
+          this.router.navigate(['/']);
         }
       },
-      (error) => {}
+      (error) => {
+        this.router.navigate(['/']);
+      }
     );
   }
 }

@@ -215,16 +215,16 @@ export class AdminComponent extends Blog implements OnInit {
       let group = {};
       Object.entries(data).forEach((column: any) => {
         if(this.isObject(column[1])){
-          group[column[0]] = new FormControl(column[1].id);
+          group[column[0]] = new FormControl(column[1].id,Validators.required);
         }else{
-          group[column[0]] = new FormControl(column[1]);
+          group[column[0]] = new FormControl(column[1],Validators.required);
         }
       });
       return new FormGroup(group);
     } else {
       let group = {};
       Object.entries(this.columns).forEach((column: any) => {
-        group[column[0]] = new FormControl(column[1].value);
+        group[column[0]] = new FormControl(column[1].value,Validators.required);
       });
       return new FormGroup(group);
     }
@@ -255,13 +255,5 @@ export class AdminComponent extends Blog implements OnInit {
       }
     }
     $('#myModal').modal('hide');
-  }
-
-  isObject(val): boolean {
-    return val instanceof Object;
-  }
-
-  toString(val): string{
-    return JSON.stringify(val);
   }
 }
