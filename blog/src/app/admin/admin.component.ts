@@ -23,10 +23,8 @@ export class AdminComponent extends Blog implements OnInit {
   tables: TableMetadata[];
   //Holds the current table
   table: TableMetadata;
-
   //reactive form for data input
   dataForm: FormGroup;
-
   //Holds the list data fetch from server
   tableBody: any[];
   //Contains all metadata for the table columns
@@ -37,15 +35,16 @@ export class AdminComponent extends Blog implements OnInit {
   columnData: any;
   //spinner used to show when data loading from backend
   loadData: boolean;
-
   //specifies the crud modals
   modalType: string;
-
   //Search String
   search: string;
-
   //Select the active table
   active: Active;
+  
+  postForm: FormData;
+
+  hasFile: boolean;
 
   constructor(
     private adminService: AdminService,
@@ -59,7 +58,9 @@ export class AdminComponent extends Blog implements OnInit {
     this.loadData = false;
     this.modalType = '';
     this.search = '';
+    this.hasFile = false;
     this.active = new Active();
+    this.postForm = new FormData();
   }
 
   ngOnInit(): void {
@@ -80,6 +81,7 @@ export class AdminComponent extends Blog implements OnInit {
     this.table = table;
     this.active.table = table.name;
     this.active.page = 0;
+    this.hasFile = false;
     this.page = new Page();
     this.columnData = new Table(this.capitalize(this.table.name));
     this.getData();
@@ -211,16 +213,23 @@ export class AdminComponent extends Blog implements OnInit {
         if (this.isObject(column[1])) {
           group[column[0]] = new FormControl(column[1].id);
         } else {
-          group[column[0]] = new FormControl(column[1]);
+          if(column[0]==="image"){
+            group[column[0]] = new FormControl(null);
+            this.hasFile = true;
+          }else{
+            group[column[0]] = new FormControl(column[1]);
+          }
         }
       });
       return new FormGroup(group);
     } else {
       let group = {};
       Object.entries(this.columns).forEach((column: any) => {
-        group[column[0]] = new FormControl(
-          column[1].value
-        );
+        if(column[0]==="image"){
+          group[column[0]] = new FormControl(null);
+        }else{
+          group[column[0]] = new FormControl(column[1].value);
+        }
       });
       return new FormGroup(group);
     }
@@ -229,16 +238,19 @@ export class AdminComponent extends Blog implements OnInit {
   //Submit user changes and updates
   submitData() {
     this.columnData = this.dataForm.value;
+    if(this.hasFile){
+      this.createMultipartFormData();
+    }
     if (this.columnData.id == 0 || this.columnData.id == null) {
       this.adminService
-        .addData(this.table.name, this.columnData)
+        .addData(this.table.name, this.columnData,this.postForm)
         .subscribe((res) => {
           this.getData();
         });
     } else {
       if (this.modalType === 'Update') {
         this.adminService
-          .updateData(this.table.name, this.columnData)
+          .updateData(this.table.name, this.columnData,this.postForm)
           .subscribe((res) => {
             this.getData();
           });
@@ -251,5 +263,21 @@ export class AdminComponent extends Blog implements OnInit {
       }
     }
     $('#myModal').modal('hide');
+  }
+
+  //used where there is a image
+  createMultipartFormData(){
+    Object.entries(this.columnData).forEach((element: any) => {
+      if(element[0] !== "image"){
+        this.postForm.append(element[0],element[1]);
+      }
+    });
+  }
+
+  //called to create form data when there is a file
+  onFileChange(event){
+    let file = event.target.files[0];
+    let fileName = event.target.files[0].name;
+    this.postForm.append('image',file,fileName);
   }
 }
