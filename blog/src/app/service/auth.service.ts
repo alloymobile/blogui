@@ -13,7 +13,7 @@ export class AuthService implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (localStorage.getItem('user')) {
+    if (sessionStorage.getItem('user')) {
       // logged in so return true
       return true;
     }

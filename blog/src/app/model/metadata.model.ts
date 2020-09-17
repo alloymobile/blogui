@@ -23,29 +23,6 @@ export class Active {
   }
 }
 
-export class ColumnMetadata {
-  name: string;
-  dataType: string;
-  readOnly: boolean;
-  sortOrder: boolean;
-  sort: Sort;
-  constructor(columnMetadata?: any) {
-    if (columnMetadata) {
-      this.name = columnMetadata.name;
-      this.dataType = columnMetadata.dataType;
-      this.readOnly = columnMetadata.readOnly;
-      this.sortOrder = false;
-      this.sort = new Sort();
-    } else {
-      this.name = '';
-      this.dataType = '';
-      this.readOnly = true;
-      this.sortOrder = false;
-      this.sort = new Sort();
-    }
-  }
-}
-
 export class SortColumn {
   name: string;
   sort: boolean;

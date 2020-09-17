@@ -1,4 +1,4 @@
-import { Page, ColumnMetadata, SortColumn } from './model/metadata.model';
+import { Page, SortColumn } from './model/metadata.model';
 import { HttpHeaders } from '@angular/common/http';
 import {
   faSearch,
@@ -18,7 +18,7 @@ import { User } from './model/user.model';
 
 export class Blog {
   headers: HttpHeaders;
-  apiEndPoint: string = 'http://localhost:8080/blog/api';
+  apiEndPoint: string = 'https://alloymobile.azurewebsites.net/blog/api';
   metadata: string = '/metadata';
   tableName: string = '/table';
   searchIcon = faSearch;
@@ -45,8 +45,8 @@ export class Blog {
   }
 
   addTokenInHeader() {
-    if (localStorage.getItem('user')) {
-      let user = JSON.parse(localStorage.getItem('user'));
+    if (sessionStorage.getItem('user')) {
+      let user = JSON.parse(sessionStorage.getItem('user'));
       this.headers = new HttpHeaders().set(
         'Authorization',
         'Bearer ' + user.token
@@ -77,11 +77,7 @@ export class Blog {
       return sortColumn.name + ',asc';
     }
   }
-  getSearchParamString(
-    page?: Page,
-    filter?: String,
-    columns?: ColumnMetadata[]
-  ): string {
+  getSearchParamString(page?: Page, filter?: String, columns?: any): string {
     let param: string = '';
     if (page && filter) {
       param =
@@ -96,11 +92,11 @@ export class Blog {
     return param;
   }
 
-  getSearchString(filter: any, columns: ColumnMetadata[]): string {
+  getSearchString(filter: any, columns: any): string {
     let filterString = '';
     console.log(columns);
     Object.keys(columns).forEach((key: any) => {
-      // console.log(value);
+      console.log(key);
       // switch (value.type) {
       //   case 'number':
       //       if (!isNaN(filter)) {
@@ -138,21 +134,19 @@ export class Blog {
     if (sessionStorage.getItem('user')) {
       let user: User = JSON.parse(sessionStorage.getItem('user'));
       if (user.token && user.token.length > 0) {
-        // let decodeToken = this.getDecodedAccessToken(user.token);
-        // var decoded = jwt_decode(user.token);
-        // console.log(decoded);
-        // let decodeTokenDate = new Date(decodeToken.exp * 1000);
-        // let tokenExpiry = new Date(
-        //   decodeTokenDate.setMinutes(decodeTokenDate.getMinutes() - 2)
-        // );
-        // let currentDate = new Date();
-        // if (currentDate > tokenExpiry) {
-        //   console.log('Token is expired');
-        //   return true;
-        // } else {
-        //   console.log('valid token');
-        //   return false;
-        // }
+        let decodeToken = this.getDecodedAccessToken(user.token);
+        let decodeTokenDate = new Date(decodeToken.exp * 1000);
+        let tokenExpiry = new Date(
+          decodeTokenDate.setMinutes(decodeTokenDate.getMinutes() - 2)
+        );
+        let currentDate = new Date();
+        if (currentDate > tokenExpiry) {
+          console.log('Token is expired');
+          return true;
+        } else {
+          console.log('valid token');
+          return false;
+        }
       } else {
         console.log('Token is not present');
         return true;

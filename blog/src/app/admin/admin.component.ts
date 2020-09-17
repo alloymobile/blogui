@@ -1,12 +1,7 @@
 import { TableDetailMetadata } from './../model/datatype.model';
 import { Table } from './../model/object.model';
 import { Blog } from './../blog';
-import {
-  Page,
-  TableMetadata,
-  ColumnMetadata,
-  Active,
-} from '../model/metadata.model';
+import { Page, TableMetadata, Active } from '../model/metadata.model';
 import { AdminService } from './admin.service';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -15,7 +10,6 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { titleCase } from 'title-case';
 declare var $: any;
 
 @Component({
@@ -214,17 +208,20 @@ export class AdminComponent extends Blog implements OnInit {
     if (data) {
       let group = {};
       Object.entries(data).forEach((column: any) => {
-        if(this.isObject(column[1])){
-          group[column[0]] = new FormControl(column[1].id,Validators.required);
-        }else{
-          group[column[0]] = new FormControl(column[1],Validators.required);
+        if (this.isObject(column[1])) {
+          group[column[0]] = new FormControl(column[1].id, Validators.required);
+        } else {
+          group[column[0]] = new FormControl(column[1], Validators.required);
         }
       });
       return new FormGroup(group);
     } else {
       let group = {};
       Object.entries(this.columns).forEach((column: any) => {
-        group[column[0]] = new FormControl(column[1].value,Validators.required);
+        group[column[0]] = new FormControl(
+          column[1].value,
+          Validators.required
+        );
       });
       return new FormGroup(group);
     }

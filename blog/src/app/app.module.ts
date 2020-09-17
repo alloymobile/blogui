@@ -13,9 +13,10 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, LoginComponent, AdminComponent],
+  declarations: [AppComponent, NavbarComponent, LoginComponent, AdminComponent, HomeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

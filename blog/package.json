@@ -27,11 +27,10 @@
     "@types/jwt-decode": "^2.2.1",
     "bootstrap": "^4.5.2",
     "jquery": "^3.5.1",
-    "jwt-decode": "^3.0.0-beta.2",
+    "jwt-decode": "^2.2.0",
     "ngx-bootstrap": "^6.1.0",
     "popper.js": "^1.16.1",
     "rxjs": "~6.5.5",
-    "title-case": "^3.0.2",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },

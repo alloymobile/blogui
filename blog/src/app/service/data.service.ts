@@ -1,4 +1,3 @@
-import { ColumnMetadata } from '../model/metadata.model';
 import { User, Login } from '../model/user.model';
 import { Injectable } from '@angular/core';
 
@@ -7,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class DataService {
   tableBody: any[];
-  tableHead: ColumnMetadata[];
+  tableHead: any[];
   user: User;
   loginUser: Login;
   constructor() {
