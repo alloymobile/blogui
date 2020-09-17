@@ -41,7 +41,7 @@ export class AdminComponent extends Blog implements OnInit {
   search: string;
   //Select the active table
   active: Active;
-  
+
   postForm: FormData;
 
   hasFile: boolean;
@@ -213,10 +213,11 @@ export class AdminComponent extends Blog implements OnInit {
         if (this.isObject(column[1])) {
           group[column[0]] = new FormControl(column[1].id);
         } else {
-          if(column[0]==="image"){
+          if (column[0] === 'image') {
             group[column[0]] = new FormControl(null);
             this.hasFile = true;
-          }else{
+            this.postForm = new FormData();
+          } else {
             group[column[0]] = new FormControl(column[1]);
           }
         }
@@ -225,9 +226,11 @@ export class AdminComponent extends Blog implements OnInit {
     } else {
       let group = {};
       Object.entries(this.columns).forEach((column: any) => {
-        if(column[0]==="image"){
+        if (column[0] === 'image') {
           group[column[0]] = new FormControl(null);
-        }else{
+          this.hasFile = true;
+          this.postForm = new FormData();
+        } else {
           group[column[0]] = new FormControl(column[1].value);
         }
       });
@@ -238,19 +241,19 @@ export class AdminComponent extends Blog implements OnInit {
   //Submit user changes and updates
   submitData() {
     this.columnData = this.dataForm.value;
-    if(this.hasFile){
+    if (this.hasFile) {
       this.createMultipartFormData();
     }
     if (this.columnData.id == 0 || this.columnData.id == null) {
       this.adminService
-        .addData(this.table.name, this.columnData,this.postForm)
+        .addData(this.table.name, this.columnData, this.postForm)
         .subscribe((res) => {
           this.getData();
         });
     } else {
       if (this.modalType === 'Update') {
         this.adminService
-          .updateData(this.table.name, this.columnData,this.postForm)
+          .updateData(this.table.name, this.columnData, this.postForm)
           .subscribe((res) => {
             this.getData();
           });
@@ -266,18 +269,20 @@ export class AdminComponent extends Blog implements OnInit {
   }
 
   //used where there is a image
-  createMultipartFormData(){
-    Object.entries(this.columnData).forEach((element: any) => {
-      if(element[0] !== "image"){
-        this.postForm.append(element[0],element[1]);
-      }
-    });
+  createMultipartFormData() {
+    let metadata = JSON.stringify(this.columnData);
+    this.postForm.append('metadata', metadata);
+    // Object.entries(this.columnData).forEach((element: any) => {
+    //   if (element[0] !== 'image') {
+    //     this.postForm.append(element[0], element[1]);
+    //   }
+    // });
   }
 
   //called to create form data when there is a file
-  onFileChange(event){
+  onFileChange(event) {
     let file = event.target.files[0];
     let fileName = event.target.files[0].name;
-    this.postForm.append('image',file,fileName);
+    this.postForm.append('image', file, fileName);
   }
 }

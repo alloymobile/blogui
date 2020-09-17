@@ -18,7 +18,7 @@ import { User } from './model/user.model';
 
 export class Blog {
   headers: HttpHeaders;
-  apiEndPoint: string = 'http://alloymobile.azurewebsites.net/blog/api';
+  apiEndPoint: string = 'http://localhost:8080/blog/api';
   metadata: string = '/metadata';
   tableName: string = '/table';
   searchIcon = faSearch;

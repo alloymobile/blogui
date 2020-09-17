@@ -83,30 +83,30 @@ export class AdminService extends Blog {
   }
 
   //add data
-  addData(metadata: string, data: any,formData?: FormData) {
+  addData(metadata: string, data: any, formData?: FormData) {
     let apiEndPoint = this.apiEndPoint + '/' + metadata;
     if (this.checkJwtToken()) {
       this.router.navigate(['/login']);
     } else {
       this.addTokenInHeader();
-      if(formData){
+      if (formData) {
         return this.http.post(apiEndPoint, formData, { headers: this.headers });
-      }else{
+      } else {
         return this.http.post(apiEndPoint, data, { headers: this.headers });
       }
     }
   }
 
   //update data
-  updateData(metadata: string, data: any,formData?:FormData) {
-      let apiEndPoint = this.apiEndPoint + '/' + metadata + '/' + data.id;
+  updateData(metadata: string, data: any, formData?: FormData) {
+    let apiEndPoint = this.apiEndPoint + '/' + metadata + '/' + data.id;
     if (this.checkJwtToken()) {
       this.router.navigate(['/login']);
     } else {
       this.addTokenInHeader();
-      if(formData){
+      if (formData) {
         return this.http.put(apiEndPoint, formData, { headers: this.headers });
-      }else{
+      } else {
         return this.http.put(apiEndPoint, data, { headers: this.headers });
       }
     }

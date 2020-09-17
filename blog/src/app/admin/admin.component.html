@@ -44,9 +44,7 @@
         <span class="icon"><fa-icon [icon]="upload"></fa-icon></span>
       </button>
       <button class="btn btn-primary m-1">
-        <span class="icon"
-          ><fa-icon [icon]="download"></fa-icon
-        ></span>
+        <span class="icon"><fa-icon [icon]="download"></fa-icon></span>
       </button>
       <button class="btn btn-primary m-1" (click)="openModal(true, 'Add')">
         <span class="icon"><fa-icon [icon]="add"></fa-icon></span>
@@ -177,7 +175,7 @@
           <div class="form-group" *ngFor="let c of columns | keyvalue">
             <div [ngSwitch]="c.value.type">
               <div *ngSwitchCase="'text'">
-                <label for="{{ c.value.id }}">{{ c.value.name+"*" }}</label>
+                <label for="{{ c.value.id }}">{{ c.value.name + "*" }}</label>
                 <input
                   [id]="c.value.id"
                   [type]="c.value.type"
@@ -187,7 +185,7 @@
                 />
               </div>
               <div *ngSwitchCase="'email'">
-                <label for="{{ c.value.id }}">{{ c.value.name+"*" }}</label>
+                <label for="{{ c.value.id }}">{{ c.value.name + "*" }}</label>
                 <input
                   [id]="c.value.id"
                   [type]="c.value.type"
@@ -197,7 +195,7 @@
                 />
               </div>
               <div *ngSwitchCase="'password'">
-                <label for="{{ c.value.id }}">{{ c.value.name+"*" }}</label>
+                <label for="{{ c.value.id }}">{{ c.value.name + "*" }}</label>
                 <input
                   [id]="c.value.id"
                   [type]="c.value.type"
@@ -207,7 +205,7 @@
                 />
               </div>
               <div *ngSwitchCase="'file'">
-                <label for="{{ c.value.id }}">{{ c.value.name+"*" }}</label>
+                <label for="{{ c.value.id }}">{{ c.value.name + "*" }}</label>
                 <input
                   [id]="c.value.id"
                   [type]="c.value.type"
@@ -217,7 +215,17 @@
                 />
               </div>
               <div *ngSwitchCase="'number'">
-                <label for="{{ c.value.id }}">{{ c.value.name+"*" }}</label>
+                <label for="{{ c.value.id }}">{{ c.value.name + "*" }}</label>
+                <input
+                  [id]="c.value.id"
+                  [type]="c.value.type"
+                  class="form-control"
+                  [formControlName]="c.key"
+                  [readonly]="c.value.readOnly"
+                />
+              </div>
+              <div *ngSwitchCase="'date'">
+                <label for="{{ c.value.id }}">{{ c.value.name + "*" }}</label>
                 <input
                   [id]="c.value.id"
                   [type]="c.value.type"
@@ -227,7 +235,7 @@
                 />
               </div>
               <div *ngSwitchCase="'select'">
-                <label for="{{ c.value.id }}">{{ c.value.name+"*" }}</label>
+                <label for="{{ c.value.id }}">{{ c.value.name + "*" }}</label>
                 <select
                   [id]="c.value.id"
                   class="form-control"
