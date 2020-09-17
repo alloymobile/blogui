@@ -206,7 +206,7 @@
                   [readonly]="c.value.readOnly"
                 />
               </div>
-              <div *ngSwitchCase="'file'">
+              <!-- <div *ngSwitchCase="'file'">
                 <label for="{{ c.value.id }}">{{ c.value.name }}</label>
                 <input
                   [id]="c.value.id"
@@ -215,7 +215,7 @@
                   [formControlName]="c.key"
                   [readonly]="c.value.readOnly"
                 />
-              </div>
+              </div> -->
               <div *ngSwitchCase="'number'">
                 <label for="{{ c.value.id }}">{{ c.value.name }}</label>
                 <input
