@@ -104,7 +104,7 @@ export class AdminService extends Blog {
       this.router.navigate(['/login']);
     } else {
       this.addTokenInHeader();
-      if (formData) {
+      if (formData.get('image') != null) {
         return this.http.put(apiEndPoint, formData, { headers: this.headers });
       } else {
         return this.http.put(apiEndPoint, data, { headers: this.headers });

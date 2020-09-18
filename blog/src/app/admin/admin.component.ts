@@ -272,11 +272,6 @@ export class AdminComponent extends Blog implements OnInit {
   createMultipartFormData() {
     let metadata = JSON.stringify(this.columnData);
     this.postForm.append('metadata', metadata);
-    // Object.entries(this.columnData).forEach((element: any) => {
-    //   if (element[0] !== 'image') {
-    //     this.postForm.append(element[0], element[1]);
-    //   }
-    // });
   }
 
   //called to create form data when there is a file
