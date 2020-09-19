@@ -184,6 +184,19 @@
                   [readonly]="c.value.readOnly"
                 />
               </div>
+              <div *ngSwitchCase="'textarea'">
+                <label for="{{ c.value.id }}">{{ c.value.name + "*" }}</label>
+                <textarea
+                  [id]="c.value.id"
+                  [type]="c.value.type"
+                  class="form-control"
+                  [formControlName]="c.key"
+                  [readonly]="c.value.readOnly"
+                  [rows]="c.value.rows"
+                  [cols]="c.value.cols"
+                >
+                </textarea>
+              </div>
               <div *ngSwitchCase="'email'">
                 <label for="{{ c.value.id }}">{{ c.value.name + "*" }}</label>
                 <input
