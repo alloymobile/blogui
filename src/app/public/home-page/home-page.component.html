@@ -1,0 +1,39 @@
+<main>
+    <div class="container col-12 p-2">
+        <div class="row align-items-center m-2">
+          <div class="col-lg-7 text-center text-lg-start">
+            <h1 class="fw-bold text-body-emphasis mb-3">Search blogs</h1>
+            <div class="pe-5">
+                <alloy-input-icon-text [inputIconText]="search" (output)="getText($event)"></alloy-input-icon-text>
+            </div>
+          </div>
+          <div class="col-md-10 mx-auto col-lg-5">
+            <alloy-form [form]="subscribeForm" (output)="getForm($event)"></alloy-form>
+          </div>
+        </div>
+      </div>
+
+    <!-- =======================
+    Categories START -->
+    <section>
+        <div class="container">
+            <!-- Title -->
+            <div class="row mb-4">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2>Choose a Categories</h2>
+                    <p class="mb-0">Get blogs about different topics</p>
+                </div>
+            </div>
+            <div *ngIf="loadingIcon.spin" class="h-100 d-flex justify-content-center align-items-center bg-light">
+                <alloy-icon [icon]="loadingIcon"></alloy-icon>
+            </div>
+            <div  *ngIf="!loadingIcon.spin" class="row g-4">
+                <div class="col-sm-6 col-md-4 col-xl-3" *ngFor="let category of categoryCards">
+                    <alloy-card-icon [cardIcon]="category"></alloy-card-icon>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+    Categories END -->
+</main>

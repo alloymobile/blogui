@@ -1,0 +1,31 @@
+{
+    "subscribeForm":
+    {
+        "id":"Register",
+        "title":"Sign up",
+        "message":"",
+        "action":"Register",
+        "className":"col p-5 border shadow",
+        "submit":{"id":"1","name":"Submit","className":"w-100 btn btn-lg btn-primary mt-1","type":"submit","disable":true,"show":false,
+        "icon":{"id":31,"icon":"faSpinner","size":"lg","spin":true,"className":""}},
+        "fields":[
+            {"id":"1","name":"email","className":"col-sm-12",
+            "errors":[
+                {"name":"required","message":"Email is required."},
+                {"name":"email","message":"Provide a valid email address."}                
+                ],"type":"email","text":"","placeholder":"email","readonly":false,"label":"Email","icon":{"id":1,"icon":"faEnvelope","size":"lg","spin":false,"className":"text-primary"}}
+        ]
+    },
+    "search":{"name":"search","className":"col-12 border border-dark rounded-pill m-2","inputClass":"form-control border-0", "iconClass":"input-group-text bg-white border-0","type":"search","placeholder":"john@example.com","text":"","readonly": false,"label":"Search..","icon":{"id":1,"icon":"faSearch","size":"lg","spin":false,"className":"bg-white"}},
+    "categoryCard":{
+        "id":"cardAddress",
+        "className": "card border m-2 shadow cursor",
+        "body":{"id":"body","className":"card-body bg-success bg-opacity-10 text-center btn-transition p-4 d-flex flex-column align-items-center","name":"Category"},
+        "icon":{"id":1,"icon":"faEnvelope","size":"lg","spin":false,"className":"text-primary"},
+        "iconClass":"bg-white p-4 rounded-circle border",
+        "link":"/blog",
+        "fields":[
+            {"id":"title","className":"card-title h5 text-nowrap col-sm-12 p-2","name":"Artificial Inteligence"}
+        ]
+    }
+}
