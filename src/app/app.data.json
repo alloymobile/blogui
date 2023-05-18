@@ -15,8 +15,7 @@
         {"id":"link2","name":"About","className":"nav-link text-primary fs-5","active":"","link":"about","icon":{"id":31,"icon":"faUser","size":"sm","spin":false,"className":""}},
         {"id":"link3","name":"Blog","className":"nav-link text-primary fs-5","active":"","link":"blog","icon":{"id":32,"icon":"faBlog","size":"sm","spin":false,"className":""}},
         {"id":"link4","name":"Contact","className":"nav-link text-primary fs-5","active":"","link":"contact","icon":{"id":31,"icon":"faEnvelope","size":"sm","spin":false,"className":""}},
-        {"id":"link5","name":"Sign in","className":"nav-link text-primary fs-5","active":"","link":"contact","icon":{"id":31,"icon":"faRightToBracket","size":"sm","spin":false,"className":""}},
-        {"id":"link6","name":"Sign up","className":"nav-link text-primary fs-5","active":"","link":"contact","icon":{"id":31,"icon":"faUserPlus","size":"sm","spin":false,"className":""}}
+        {"id":"link5","name":"Sign in","className":"nav-link text-primary fs-5","active":"","link":"signin","icon":{"id":31,"icon":"faRightToBracket","size":"sm","spin":false,"className":""}}
       ]
     }
   },
@@ -24,7 +23,7 @@
   {
     "id":1,
     "title":"Eduport education theme, built specifically for the education centers which is dedicated to teaching and involving learners.",
-    "className":"bg-info container-fluid",
+    "className":"bg-primary container-fluid",
     "logo":{"id":1,"name":"AlloyMobile","className":"mx-auto text-white fs-5","link":"https://alloymobile.com","logo":{"image":"https://alloymobile.blob.core.windows.net/alloymobile/alloymobile.png","alt":"AlloyMobile","width":"36","height":"auto"}},
     "link":
     [

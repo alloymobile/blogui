@@ -1,0 +1,30 @@
+{
+    "tabBar":{
+        "id":"tab1",
+        "className":"nav nav-pills nav-fill",
+        "tabs":[
+            {"id":"navs1","name":"Create","className":"nav-link active","icon":{"id":"icon1","icon":"faAngleRight","size":"lg","spin":false,"className":""}},
+            {"id":"navs2","name":"Create","className":"nav-link d-flex flex-row-reverse justify-content-between","icon":{"id":"icon1","icon":"faAngleRight","size":"lg","spin":false,"className":""}},
+            {"id":"navs3","name":"Create","className":"nav-link d-flex flex-row-reverse justify-content-between","icon":{"id":"icon1","icon":"faAngleRight","size":"lg","spin":false,"className":""}},
+            {"id":"navs4","name":"Update","className":"nav-link d-flex flex-row-reverse justify-content-between","icon":{"id":"icon2","icon":"faAngleRight","size":"lg","spin":false,"className":""}}        
+        ],
+        "selected":{"id":"navs1","name":"Create","className":"nav-link active d-flex flex-row-reverse justify-content-between","link":"login","icon":{"id":"icon1","icon":"faAngleRight","size":"lg","spin":false,"className":""}}
+    },
+    "tabLinkBar":{
+        "id":"tab1",
+        "className":"nav nav-pills nav-fill",
+        "tabs":[
+            {"id":"navs1","name":"Create","className":"nav-link active d-flex flex-row-reverse justify-content-between","link":"login","icon":{"id":"icon1","icon":"faAngleRight","size":"lg","spin":false,"className":""}},
+            {"id":"navs2","name":"Create","className":"nav-link d-flex flex-row-reverse justify-content-between","link":"admin/profile","icon":{"id":"icon1","icon":"faAngleRight","size":"lg","spin":false,"className":""}},
+            {"id":"navs3","name":"Create","className":"nav-link d-flex flex-row-reverse justify-content-between","link":"login","icon":{"id":"icon1","icon":"faAngleRight","size":"lg","spin":false,"className":""}},
+            {"id":"navs4","name":"Update","className":"nav-link d-flex flex-row-reverse justify-content-between","link":"login","icon":{"id":"icon2","icon":"faAngleRight","size":"lg","spin":false,"className":""}}        
+        ],
+        "selected":{"id":"navs1","name":"Create","className":"nav-link active d-flex flex-row-reverse justify-content-between","link":"login","icon":{"id":"icon1","icon":"faAngleRight","size":"lg","spin":false,"className":""}}
+    },
+
+    "dashboard":
+    [
+        {"id":1,"className":"card card-body bg-warning bg-opacity-15 p-4 h-100","count":"4","name":{"id":"1","name":"Total Clients","className":"text-decoration-none fw-bold text-dark","link":"./user"},"nameClass":"","iconClass":"icon-lg rounded-circle bg-warning text-white mb-0","icon":{"id":1,"icon":"faUser","size":"lg","spin":false,"className":""}},
+        {"id":2,"className":"card card-body bg-info bg-opacity-15 p-4 h-100","count":"3","name":{"id":"1","name":"Total Review","className":"text-decoration-none fw-bold text-dark","link":"./review"},"nameClass":"","iconClass":"icon-lg rounded-circle bg-info text-white mb-0","icon":{"id":1,"icon":"faChalkboardTeacher","size":"lg","spin":false,"className":""}}
+    ]  
+}

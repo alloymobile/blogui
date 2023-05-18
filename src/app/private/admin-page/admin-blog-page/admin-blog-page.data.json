@@ -1,0 +1,37 @@
+{
+    "id":"","className":"container-fluid",
+    "search":{"name":"search","className":"col-12 border border-dark rounded-pill m-2","inputClass":"form-control border-0", "iconClass":"input-group-text bg-white border-0","type":"search","placeholder":"john@example.com","text":"","readonly": false,"label":"Search..","icon":{"id":1,"icon":"faSearch","size":"lg","spin":false,"className":"bg-white"}},
+    "add":{"name":"Add","className":"btn btn-outline-dark rounded px-1","active":"","type":"button","icon":{"icon":"faPlus","size":"lg","spin":false,"className":"text-primary"}},
+    "modal":
+    {
+        "id":"myModal","title":"Category","action":"Add","className":"modal fade","submit":{"id":"1","name":"Add","className":"btn btn-outline-dark","type":"submit"},
+        "fields":[
+            {"id":"blog1","name":"title","className":"col-lg-12",
+            "errors":[
+                {"name":"required","message":"Title is required.","pattern":""}             
+                ],"type":"text","text":"","placeholder":"Title","readonly":false,"label":"Title*","icon":{"id":1,"icon":"faAddressCard","size":"lg","spin":false,"className":""}
+            },
+            {"id":"blog2","name":"file","className":"col-lg-12",
+            "errors":[
+                {"name":"required","message":"Image is required.","pattern":""}             
+                ],"type":"file","text":"","placeholder":"Image","readonly":false,"label":"Image*","icon":{"id":1,"icon":"faAddressCard","size":"lg","spin":false,"className":""}
+            },
+            {"id":"blog3","name":"details","className":"col-lg-12",
+            "errors":[
+                {"name":"required","message":"Details is required.","pattern":""}             
+                ],"type":"textarea","height":"200","text":"","placeholder":"Details","readonly":false,"label":"Details*","icon":{"id":1,"icon":"faAddressCard","size":"lg","spin":false,"className":""}
+            }
+        ]
+    },
+    "table":
+    {
+        "id":"table","className":"table table-striped table-hover table-responsive table-sm","link":"./","name":"Category",
+        "icon":{"id":1,"icon":"faUserCog","size":"lg","spin":false,"className":""},
+        "actions":
+        [
+            {"id":"Edit","icon":"faEdit","size":"lg","spin":false,"className":""},
+            {"id":"Delete","icon":"faTrashAlt","size":"lg","spin":false,"className":""}
+        ],
+        "rows":[]
+    }
+}

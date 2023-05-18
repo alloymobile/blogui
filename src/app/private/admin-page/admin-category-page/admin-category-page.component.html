@@ -1,0 +1,13 @@
+<div *ngIf="loadingIcon.spin" class="h-100 d-flex justify-content-center align-items-center bg-light">
+    <alloy-icon [icon]="loadingIcon"></alloy-icon>
+  </div>
+<div *ngIf="!loadingIcon.spin" class="row">
+    <div class="col-12">
+        <alloy-crud-table [crudTable]="userData" (output)="submitData($event)"></alloy-crud-table>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <alloy-page [page]="page" (output)="getNextPage($event)"></alloy-page>
+        </div>
+    </div>
+</div>

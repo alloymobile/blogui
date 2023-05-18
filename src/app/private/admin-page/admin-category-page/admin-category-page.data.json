@@ -1,0 +1,24 @@
+{
+    "id":"","className":"container-fluid",
+    "search":{"name":"search","className":"col-12 border border-dark rounded-pill m-2","inputClass":"form-control border-0", "iconClass":"input-group-text bg-white border-0","type":"search","placeholder":"john@example.com","text":"","readonly": false,"label":"Search..","icon":{"id":1,"icon":"faSearch","size":"lg","spin":false,"className":"bg-white"}},
+    "add":{"name":"Add","className":"btn btn-outline-dark rounded px-1","active":"","type":"button","icon":{"icon":"faPlus","size":"lg","spin":false,"className":"text-primary"}},
+    "modal":
+    {
+        "id":"myModal","title":"Category","action":"Add","className":"modal fade","submit":{"id":"1","name":"Add","className":"btn btn-outline-dark","type":"submit"},
+        "fields":[
+            {"id":"1","name":"name","className":"col-lg-12","type":"text","text":"","placeholder":"Name","readonly":false,"label":"Name","icon":{"id":1,"icon":"faUserCog","size":"lg","spin":false,"className":""}},
+            {"id":"2","name":"icon","className":"col-lg-12","type":"text","text":"","placeholder":"Icon","readonly":false,"label":"Icon","icon":{"id":1,"icon":"faUserCog","size":"lg","spin":false,"className":""}}
+        ]
+    },
+    "table":
+    {
+        "id":"table","className":"table table-striped table-hover table-responsive table-sm","link":"./","name":"Category",
+        "icon":{"id":1,"icon":"faUserCog","size":"lg","spin":false,"className":""},
+        "actions":
+        [
+            {"id":"Edit","icon":"faEdit","size":"lg","spin":false,"className":""},
+            {"id":"Delete","icon":"faTrashAlt","size":"lg","spin":false,"className":""}
+        ],
+        "rows":[]
+    }
+}

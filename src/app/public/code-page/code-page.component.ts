@@ -57,7 +57,7 @@ export class CodePageComponent implements OnInit {
       // code.code="338098";
       code.email="tapas@alloymobile.com";
       code.password="Happy@2023";
-      code.code="556546";
+      code.code="926085";
       this.onCode(code);
     // });
   }
@@ -83,7 +83,7 @@ export class CodePageComponent implements OnInit {
       if(form.action == "Code"){
         //boiler code remove
         this.client.email = form.email;
-        this,this.client.password = form.password;
+        this.client.password = form.password;
         this.client.code = form.code;
         this.httpService.loginUser(this.createCodeEndPoint("signin"),Client.createCodeDTO(this.client))
           .subscribe({
@@ -93,7 +93,7 @@ export class CodePageComponent implements OnInit {
               this.code.codeForm.submit.disable=false;
               this.code.codeForm.submit.show=false;
               if(client.roles.length > 1){
-                this.router.navigate(['owner/add']);
+                this.router.navigate(['admin']);
               }else{
                 this.router.navigate(['client']);
               } 

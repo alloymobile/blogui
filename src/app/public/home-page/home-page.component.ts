@@ -5,7 +5,7 @@ import { HttpService } from 'src/app/shared/service/http.service';
 import { environment } from 'src/environments/environment.prod';
 import HomeDB from './home-page.data.json';
 import { Page } from 'src/app/shared/model/metadata.model';
-import { Category } from 'src/app/shared/model/blog.model';
+import { DataService } from 'src/app/shared/service/data.service';
 
 @Component({
   selector: 'app-home-page',
@@ -19,7 +19,7 @@ export class HomePageComponent implements OnInit{
   client: Client;
   search: AlloyInputTextIcon;
   categoryCards: AlloyCardIcon[];
-  constructor(private httpService: HttpService){
+  constructor(private httpService: HttpService, private data: DataService){
       this.loadingIcon = new AlloyIcon({id:"1",icon:"faSpinner",size:"5x",spin:true,className:""});
       this.page = new Page();
       this.subscribeForm = new AlloyForm(HomeDB.subscribeForm);
@@ -29,6 +29,7 @@ export class HomePageComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.data.nextLink("");
     this.getCategories();
   }
 
@@ -64,7 +65,8 @@ export class HomePageComponent implements OnInit{
           this.categoryCards = [];
           res.content.forEach(element => {
             HomeDB.categoryCard.fields[0].name = element.name;
-            HomeDB.categoryCard.link =  element.name.toLowerCase()+"/blog";
+            HomeDB.categoryCard.icon.icon = element.icon;
+            HomeDB.categoryCard.link =  "/"+element.name.toLowerCase()+"/blog";
             this.categoryCards.push(new AlloyCardIcon(HomeDB.categoryCard));
           });
           this.loadingIcon.spin = false;  

@@ -1,0 +1,33 @@
+<div class="row d-flex h-100">
+  <div class="sidebar bg-white border-end">
+    <alloy-icon-sidebar [iconSideBar]="sideBar"></alloy-icon-sidebar>
+  </div>
+  <div class="main">
+    <alloy-clientbar
+      [clientBar]="clientBar"
+      (output)="back($event)"
+    ></alloy-clientbar>
+    <div class="container-fluid h-100">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<div
+  class="offcanvas offcanvas-start"
+  tabindex="-1"
+  id="offcanvasExample"
+  aria-labelledby="offcanvasExampleLabel"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">AlloyMobile</h5>
+    <button
+      type="button"
+      class="btn-close text-reset"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body bg-white p-0">
+    <alloy-icon-sidebar [iconSideBar]="sideBar"></alloy-icon-sidebar>
+  </div>
+</div>

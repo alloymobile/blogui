@@ -23,7 +23,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
-    "alloymobile-angular": "^0.1.64",
+    "alloymobile-angular": "^0.1.67",
     "bootstrap": "^5.2.3",
     "jwt-decode": "^3.1.2",
     "roboto-fontface": "^0.10.0",

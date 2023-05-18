@@ -1,0 +1,15 @@
+{
+    "search":{"name":"search","className":"col-12 border border-dark rounded-pill m-2","inputClass":"form-control border-0", "iconClass":"input-group-text bg-white border-0","type":"search","placeholder":"john@example.com","text":"","readonly": false,"label":"Search..","icon":{"id":1,"icon":"faSearch","size":"lg","spin":false,"className":"bg-white"}},
+    "blogCard":
+    {
+        "id":"cardAddress",
+        "className": "card border m-2 shadow cursor",
+        "body":{"id":"body","className":"card-body d-flex flex-column align-items-center","name":"Billing"},
+        "image":{"imageUrl":"https://alloymobile.blob.core.windows.net/alloymobile/alloymobile.png","alt":"AlloyMobile","width":"72","height":"auto"},
+        "imageClass":"card-img-top p-2 rounded text-center",
+        "link":"",
+        "fields":[
+            {"id":"title","className":"card-title h5 col-sm-12 text-nowrap","name":"33 Alderney Avenue"}
+        ]
+    }
+}

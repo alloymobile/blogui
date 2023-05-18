@@ -23,7 +23,7 @@
         "body":{"id":"body","className":"card-body bg-success bg-opacity-10 text-center btn-transition p-4 d-flex flex-column align-items-center","name":"Category"},
         "icon":{"id":1,"icon":"faEnvelope","size":"lg","spin":false,"className":"text-primary"},
         "iconClass":"bg-white p-4 rounded-circle border",
-        "link":"/blog",
+        "link":"/",
         "fields":[
             {"id":"title","className":"card-title h5 text-nowrap col-sm-12 p-2","name":"Artificial Inteligence"}
         ]
