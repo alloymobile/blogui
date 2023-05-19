@@ -34,6 +34,17 @@ export class AdminBlogPageComponent   implements OnInit{
     this.getBlogs();
   }
 
+  createBlobEndPoint(data?: string){
+    let endpoint = [];
+    endpoint.push(environment.blogApiUrl);
+    endpoint.push(environment.baseUrl);
+    endpoint.push("blobs");
+    if(data){
+      endpoint.push(data);
+    }
+    return endpoint;  
+  }
+
   createBlogEndPoint(secure:boolean, data?: string){
     let endpoint = [];
     endpoint.push(environment.blogApiUrl);
@@ -77,11 +88,55 @@ export class AdminBlogPageComponent   implements OnInit{
   submitData(data) {
     console.log(data);
     if (data.action === "Add") {
-      let category = new Blog(data);
-      this.httpService.postData(this.createBlogEndPoint(true),this.client.token, Blog.getBlogDTO(category))
+      let fileData = new FormData();
+      let file = data.imageUrl[0];
+      let fileName = Date.now()+'-'+file.name;
+      fileData.append('file', file, fileName);
+      this.httpService.uploadBlob(this.createBlobEndPoint(),this.client.token,fileData)
+      .subscribe({
+        next: (res: any) => { 
+          let blog = new Blog(data);
+          blog.imageUrl = res.url;
+          this.httpService.postData(this.createBlogEndPoint(true),this.client.token, Blog.getBlogDTO(blog))
+            .subscribe({
+              next: (res: any) => { 
+                this.getBlogs();   
+              }, // completeHandler
+              error: (error: any) => { 
+                  console.log(error);
+                  this.loadingIcon.spin = false;
+              },    // errorHandler 
+              complete: () => {}, // nextHandler
+            }); 
+        }, // completeHandler
+        error: (error: any) => { 
+            console.log(error);
+            this.loadingIcon.spin = false;
+        },    // errorHandler 
+        complete: () => {}, // nextHandler
+      });
+    } else if (data.action === "Edit") {
+      if(data.imageUrl[0] !== undefined){
+        let fileData = new FormData();
+        let file = data.imageUrl[0];
+        let fileName = Date.now()+'-'+file.name;
+        fileData.append('file', file, fileName);
+        this.httpService.uploadBlob(this.createBlobEndPoint(),this.client.token,fileData)
         .subscribe({
           next: (res: any) => { 
-            this.getBlogs();   
+            let blog = new Blog(data);
+            blog.imageUrl = res.url;
+            this.httpService.putData(this.createBlogEndPoint(true,blog.id),this.client.token, Blog.getBlogDTO(blog))
+            .subscribe({
+              next: (res: any) => { 
+                this.getBlogs();   
+              }, // completeHandler
+              error: (error: any) => { 
+                  console.log(error);
+                  this.loadingIcon.spin = false;
+              },    // errorHandler 
+              complete: () => {}, // nextHandler
+            });
           }, // completeHandler
           error: (error: any) => { 
               console.log(error);
@@ -89,9 +144,10 @@ export class AdminBlogPageComponent   implements OnInit{
           },    // errorHandler 
           complete: () => {}, // nextHandler
         });
-    } else if (data.action === "Edit") {
-      let category = new Blog(data);
-      this.httpService.putData(this.createBlogEndPoint(true,category.id),this.client.token, Blog.getBlogDTO(category))
+      }
+      //if no file change
+      let blog = new Blog(data);
+      this.httpService.putData(this.createBlogEndPoint(true,blog.id),this.client.token, Blog.getBlogDTO(blog))
         .subscribe({
           next: (res: any) => { 
             this.getBlogs();   

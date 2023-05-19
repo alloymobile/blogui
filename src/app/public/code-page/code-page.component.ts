@@ -48,18 +48,18 @@ export class CodePageComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // this.dataService.user.pipe(take(1)).subscribe(client=> {
-    //   this.client = client;
-      let code={email:"",password:"",code:"",action:"Code"}
+    this.dataService.user.pipe(take(1)).subscribe(client=> {
+      this.client = client;
+      // let code={email:"",password:"",code:"",action:"Code"}
 
       // code.email="htsmartlabs@gmail.com";
       // code.password="Happy@2023";
       // code.code="338098";
-      code.email="tapas@alloymobile.com";
-      code.password="Happy@2023";
-      code.code="926085";
-      this.onCode(code);
-    // });
+      // code.email="tapas@alloymobile.com";
+      // code.password="Happy@2023";
+      // code.code="926085";
+      // this.onCode(code);
+    });
   }
 
   onCode(form){
@@ -82,8 +82,8 @@ export class CodePageComponent implements OnInit {
     }else{
       if(form.action == "Code"){
         //boiler code remove
-        this.client.email = form.email;
-        this.client.password = form.password;
+        // this.client.email = form.email;
+        // this.client.password = form.password;
         this.client.code = form.code;
         this.httpService.loginUser(this.createCodeEndPoint("signin"),Client.createCodeDTO(this.client))
           .subscribe({
@@ -92,11 +92,7 @@ export class CodePageComponent implements OnInit {
               this.dataService.nextUser(client);
               this.code.codeForm.submit.disable=false;
               this.code.codeForm.submit.show=false;
-              if(client.roles.length > 1){
-                this.router.navigate(['admin']);
-              }else{
-                this.router.navigate(['client']);
-              } 
+              this.router.navigate(['admin']);
             }, // completeHandler
             error: (err: any) => { 
                 console.log(err);

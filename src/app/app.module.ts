@@ -18,18 +18,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AdminPageComponent } from './private/admin-page/admin-page.component';
-import { ClientPageComponent } from './private/client-page/client-page.component';
 import { AdminProfilePageComponent } from './private/admin-page/admin-profile-page/admin-profile-page.component';
-import { AdminRolePageComponent } from './private/admin-page/admin-role-page/admin-role-page.component';
-import { AdminUserPageComponent } from './private/admin-page/admin-user-page/admin-user-page.component';
 import { AdminDashboardPageComponent } from './private/admin-page/admin-dashboard-page/admin-dashboard-page.component';
-import { ClientDashboardPageComponent } from './private/client-page/client-dashboard-page/client-dashboard-page.component';
-import { ClientProfilePageComponent } from './private/client-page/client-profile-page/client-profile-page.component';
 import { ContactPageComponent } from './public/contact-page/contact-page.component';
 import { BlogPageComponent } from './public/blog-page/blog-page.component';
 import { BlogDetailsPageComponent } from './public/blog-page/blog-details-page/blog-details-page.component';
 import { AdminBlogPageComponent } from './private/admin-page/admin-blog-page/admin-blog-page.component';
-import { ClientBlogPageComponent } from './private/client-page/client-blog-page/client-blog-page.component';
 import { AdminCategoryPageComponent } from './private/admin-page/admin-category-page/admin-category-page.component';
 
 @NgModule({
@@ -50,13 +44,7 @@ import { AdminCategoryPageComponent } from './private/admin-page/admin-category-
     AdminPageComponent,
     AdminDashboardPageComponent,
     AdminProfilePageComponent,
-    AdminRolePageComponent,
-    AdminUserPageComponent,
-    ClientPageComponent,
-    ClientDashboardPageComponent,
-    ClientProfilePageComponent,
     AdminBlogPageComponent,
-    ClientBlogPageComponent,
     AdminCategoryPageComponent
   ],
   imports: [

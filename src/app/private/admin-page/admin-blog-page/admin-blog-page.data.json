@@ -11,7 +11,7 @@
                 {"name":"required","message":"Title is required.","pattern":""}             
                 ],"type":"text","text":"","placeholder":"Title","readonly":false,"label":"Title*","icon":{"id":1,"icon":"faAddressCard","size":"lg","spin":false,"className":""}
             },
-            {"id":"blog2","name":"file","className":"col-lg-12",
+            {"id":"blog2","name":"imageUrl","className":"col-lg-12",
             "errors":[
                 {"name":"required","message":"Image is required.","pattern":""}             
                 ],"type":"file","text":"","placeholder":"Image","readonly":false,"label":"Image*","icon":{"id":1,"icon":"faAddressCard","size":"lg","spin":false,"className":""}

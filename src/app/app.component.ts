@@ -27,6 +27,13 @@ export class AppComponent implements  OnInit, OnDestroy{
   ngOnInit(): void {
     this.data.link.subscribe(link => {
       this.link = link;
+      if(this.link === "admin"){
+        this.navBar.linkBar.links.forEach(link => {
+          if(link.name === "Sign in"){
+            link.name = "Sign out";
+          }
+        });
+      }
       this.navBar.linkBar.links.forEach(link => {
         if(link.link === this.link){
           link.active = this.navBar.linkBar.selected;
@@ -35,14 +42,5 @@ export class AppComponent implements  OnInit, OnDestroy{
         }
       });
     });
-    // this.data.user.subscribe(client => {
-    //   if(client.token != undefined){
-    //     this.navBar.linkBar.links.forEach(link => {
-    //       if(link.name === "Sign In"){
-    //         link.name = "Sign Out";
-    //       }
-    //     });
-    //   }
-    // });
   }
 }

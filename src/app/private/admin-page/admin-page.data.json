@@ -6,11 +6,9 @@
     "linkIcon":
     [
       {"id":"linkIcon1","name":"Dashboard","className":"list-group-item list-group-item-action","link":"admin","icon":{"id":1,"icon":"faDashboard","size":"lg","spin":false,"className":""}},
-      {"id":"linkIcon2","name":"User","className":"list-group-item list-group-item-action","link":"admin/user","icon":{"id":2,"icon":"faUsers","size":"lg","spin":false,"className":""}},
-      {"id":"linkIcon3","name":"Profile","className":"list-group-item list-group-item-action","link":"admin/profile","icon":{"id":2,"icon":"faUser","size":"lg","spin":false,"className":""}},
-      {"id":"linkIcon4","name":"Blog","className":"list-group-item list-group-item-action","link":"admin/create-blog","icon":{"id":2,"icon":"faUser","size":"lg","spin":false,"className":""}},
-      {"id":"linkIcon5","name":"Category","className":"list-group-item list-group-item-action","link":"admin/category","icon":{"id":2,"icon":"faUser","size":"lg","spin":false,"className":""}},
-      {"id":"linkIcon6","name":"Role","className":"list-group-item list-group-item-action","link":"admin/role","icon":{"id":2,"icon":"faUserCog","size":"lg","spin":false,"className":""}}
+      {"id":"linkIcon2","name":"Profile","className":"list-group-item list-group-item-action","link":"admin/profile","icon":{"id":2,"icon":"faUser","size":"lg","spin":false,"className":""}},
+      {"id":"linkIcon3","name":"Blog","className":"list-group-item list-group-item-action","link":"admin/create-blog","icon":{"id":2,"icon":"faUser","size":"lg","spin":false,"className":""}},
+      {"id":"linkIcon4","name":"Category","className":"list-group-item list-group-item-action","link":"admin/category","icon":{"id":2,"icon":"faUser","size":"lg","spin":false,"className":""}}
    ]
   },
   "clientBar":{
